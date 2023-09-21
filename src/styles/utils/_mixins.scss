@@ -1,0 +1,18 @@
+
+
+@mixin flex($justify, $align, $direction:row, $wrap:nowrap) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+    max-width: 100%;
+}
+
+@mixin grid($justify, $align, $direction:row, $wrap:nowrap) {
+    display: grid;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+// mixin to transition that can have a varaible length of args

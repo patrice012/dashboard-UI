@@ -54,6 +54,7 @@ a {
 }
 
 :root {
+  --main-color:rgb(16, 24, 40);
   --white-color: rgba(255, 255, 255, 1);
   --btn-color: rgba(0, 10, 255, 1);
   --btn-hover-color: rgba(114, 128, 255, 1);
@@ -69,6 +70,18 @@ a {
   --second-text-color: rgba(138, 146, 166, 1);
   --icon-hover: rgba(78, 79, 88, 0.908);
   --radius: 0.6rem;
+}
+
+body {
+  font-family: Circular Std;
+}
+
+.admin, .intro {
+  font-family: Product Sans;
+}
+
+.card--text h4, tfoot th {
+  font-family: Inter;
 }
 
 html {
@@ -96,6 +109,16 @@ button {
   border-radius: var(--radius, 0.6rem);
 }
 
+.max-container {
+  margin: 0 auto;
+  width: 93%;
+  max-width: 1440px !important;
+}
+
+.menu {
+  padding: 0 !important;
+}
+
 .bg-main {
   background-color: var(--panel-bg);
 }
@@ -107,16 +130,12 @@ button {
 .admin {
   color: var(--white-color);
   text-align: center;
-  font-size: 2.6125rem;
+  font-size: 2.3rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.0125rem;
-  margin-block: 1.5rem 2rem;
-}
-
-.menu {
-  padding: 0 !important;
+  margin-block: 2rem 1rem;
 }
 
 .admin,
@@ -129,7 +148,8 @@ button {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-  row-gap: 0.5rem;
+  flex-wrap: nowrap;
+  max-width: 100%;
 }
 
 .sideBard-link {
@@ -175,12 +195,6 @@ button {
   padding: 0 0.8rem 0 0 !important;
 }
 
-.max-container {
-  margin: 0 auto;
-  width: 93%;
-  max-width: 1440px;
-}
-
 .navbar {
   background-color: var(--white-color);
   border-bottom: 1px solid var(--icon-gray-light);
@@ -188,17 +202,18 @@ button {
   padding: 0.625rem 1.625rem;
   padding-inline: 1rem;
 }
+.navbar > div, .navbar--search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
 
 .inline-container {
   display: grid;
   place-items: center;
-}
-
-.inline-flex {
-  max-width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .intro {
@@ -262,7 +277,7 @@ button {
   border-radius: var(--radius, 0.6rem);
   background: var(--white-color);
   /* card1 */
-  box-shadow: 0px 10px 30px 0px var(--card-shadow);
+  box-shadow: 0px 0.625rem 1.875rem 0px var(--card-shadow);
 }
 
 .card--text {
@@ -282,6 +297,16 @@ button {
 
 table.callHistory {
   border-radius: var(--radius) !important;
+}
+table.callHistory thead > tr > th:first-child {
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  max-width: 100%;
 }
 
 .callHistory thead {
@@ -324,18 +349,21 @@ table.callHistory {
 .row-action div svg {
   width: 1.4rem;
   height: 1.4rem;
-  color: var(--icon-gray);
+  color: var(--icon-hover);
 }
 
 .user {
   display: flex;
-  align-items: center;
   justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  max-width: 100%;
   -moz-column-gap: 0.8rem;
        column-gap: 0.8rem;
 }
 .user--name {
-  color: #101828;
+  color: var(--main-color);
   font-size: 0.9375rem;
   font-style: normal;
   font-weight: 450;
@@ -368,6 +396,14 @@ table.callHistory {
 .action {
   margin-block-end: 1.4rem;
 }
+.action > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
 .action--buttons {
   display: flex;
   align-items: center;
@@ -377,10 +413,10 @@ table.callHistory {
 .action button {
   font-weight: 400;
   text-transform: capitalize;
-  box-shadow: 0px 0.0625rem 0.125rem 0px var(--border-color);
+  box-shadow: 0 0.0625rem 0.125rem 0 var(--border-color);
 }
 .action button.filter {
-  border: 1px solid var(--icon-gray-light);
+  border: 0.0625rem solid var(--icon-gray-light);
   background: var(--white-color);
 }
 .action button.filter:hover {
@@ -389,7 +425,7 @@ table.callHistory {
 }
 .action button.add-user {
   background: var(--btn-color);
-  border: 1px solid var(--btn-hover-color);
+  border: 0.0625rem solid var(--btn-hover-color);
   color: var(--white-color);
 }
 .action button.add-user:hover {
@@ -399,9 +435,14 @@ table.callHistory {
 .action--search {
   width: -moz-fit-content;
   width: fit-content;
+  position: relative;
 }
 .action--search input {
   border-radius: var(--radius, 0.6rem) !important;
   border: 1px solid var(--border-color);
   background: var(--white-color);
+  padding-inline-start: 3rem;
+}
+.action--search img, .action--search svg {
+  left: 6%;
 }/*# sourceMappingURL=index.css.map */

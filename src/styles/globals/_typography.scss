@@ -1,0 +1,13 @@
+@use '../utils/font' as font;
+
+body {
+font-family: font.$circular;
+}
+
+.admin, .intro {
+font-family: font.$product-sans
+}
+
+.card--text h4, tfoot th {
+font-family: font.$inter
+}

@@ -21,4 +21,26 @@ img {
 
 button {
 border-radius:var(--radius, 0.6rem);
+
 }
+
+.max-container {
+  margin: 0 auto;
+  width: 93%; // fixe issue here
+  max-width: 1440px !important;
+}
+
+// =============== tailwind reset
+
+.menu {
+  padding: 0 !important;
+}
+
+// .drawer {
+//   position: fixed;
+//   top: 45px;
+//   left: 20px;
+//   transform: translate(15px 23px);
+// }
+
+// ====================

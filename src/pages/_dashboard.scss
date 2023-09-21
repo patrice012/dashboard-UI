@@ -11,28 +11,13 @@
 .admin {
   color: var(--white-color);
   text-align: center;
-  font-size: 2.6125rem;
+  font-size: 2.3rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.0125rem;
-  margin-block: 1.5rem 2rem;
+  margin-block: 2rem 1rem;
 }
-
-// ===============
-
-// .drawer {
-  
-//   @include u.breakpoint(medium) {
-//   grid-template-columns: 220px 1fr !important; // rset to max-content 1fr to screen width larger than 1024px
-//   }
-// }
-
-.menu {
-  padding: 0 !important;
-}
-
-// ====================
 
 .admin,
 .link--container {
@@ -40,13 +25,8 @@
 }
 
 .link--container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  row-gap: 0.5rem;
-
-
+  @include u.flex($align: flex-start, $justify: center, $direction: column);
+  // row-gap: 0.5rem;
 }
 
 .sideBard-link {
@@ -56,13 +36,12 @@
   align-items: center;
   justify-items: space-between;
   width: 100%;
-
-    padding: 0.6rem 0rem;
+  padding: 0.6rem 0rem;
   &:hover {
     fill: var(--white-color);
     background-color: var(--icon-hover);
     border-left: 0.1875rem solid var(--white-color);
-    transition: background-color .3s ease-out;
+    transition: background-color 0.3s ease-out;
   }
 
   & > * {
@@ -79,13 +58,13 @@
   & a,
   & svg {
     color: var(--second-text-color-light);
+
+    &:hover {
+    color: var(--panel-color);
+    transition: color 0.3s ease-out;
+    }
   }
 
-  & a:hover,
-  & svg:hover {
-    color: var(--panel-color);
-    transition: color .3s ease-out;
-  }
 
   & a {
     font-size: 1rem;
@@ -96,16 +75,11 @@
 
 .sideBard-icon--left {
   justify-self: flex-end;
-  padding: 0 .8rem 0 0 !important;
+  padding: 0 0.8rem 0 0 !important;
 }
 
 // nav-bar
 
-.max-container {
-  margin: 0 auto;
-  width: 93%; // fixe issue here
-  max-width: 1440px;
-}
 
 .navbar {
   background-color: var(--white-color);
@@ -113,18 +87,16 @@
   height: 6rem;
   padding: 0.625rem 1.625rem;
   padding-inline: 1rem;
+
+  & > div,
+  &--search {
+    @include u.flex($justify: space-between, $align: center);
+  }
 }
 
 .inline-container {
   display: grid;
   place-items: center;
-}
-
-.inline-flex {
-  max-width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .intro {
@@ -166,19 +138,18 @@
 // card
 .outcomes {
   padding: 3.125rem 0rem;
-display: grid;
-row-gap: 2rem;
+  display: grid;
+  row-gap: 2rem;
   @include u.breakpoint(small) {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
-  
+
   @include u.breakpoint(medium) {
-  grid-template-columns: repeat(4, 1fr);
-  column-gap: 2rem;
-  row-gap: 0;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 2rem;
+    row-gap: 0;
   }
-  
 }
 
 .sell-card {
@@ -190,7 +161,7 @@ row-gap: 2rem;
   background: var(--white-color);
 
   /* card1 */
-  box-shadow: 0px 10px 30px 0px var(--card-shadow);
+  box-shadow: 0px 0.625rem 1.875rem 0px var(--card-shadow); // 10px 30px
 }
 
 .card--text {
@@ -215,8 +186,12 @@ row-gap: 2rem;
 
 table.callHistory {
   border-radius: var(--radius) !important;
-}
 
+  & thead > tr > th:first-child {
+    column-gap: 2rem;
+    @include u.flex($align: center, $justify: flex-start);
+  }
+}
 
 .callHistory thead {
   border: 1px solid var(--white-border);
@@ -259,19 +234,17 @@ table.callHistory {
     & svg {
       width: 1.4rem;
       height: 1.4rem;
-      color: var(--icon-gray);
+      color: var(--icon-hover);
     }
   }
 }
 
 .user {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  @include u.flex($align: center, $justify: flex-start);
   column-gap: 0.8rem;
 
   &--name {
-    color: #101828;
+    color: var(--main-color);
     // font-family: Circular Std;
     font-size: 0.9375rem;
     font-style: normal;
@@ -314,6 +287,10 @@ table.callHistory {
 .action {
   margin-block-end: 1.4rem;
 
+  & > div {
+    @include u.flex($justify: space-between, $align: center);
+  }
+
   &--buttons {
     display: flex;
     align-items: center;
@@ -323,10 +300,10 @@ table.callHistory {
   & button {
     font-weight: 400;
     text-transform: capitalize;
-    box-shadow: 0px 0.0625rem 0.125rem 0px var(--border-color); //0 1px 2px 0
+    box-shadow: 0 0.0625rem 0.125rem 0 var(--border-color); //0 1px 2px 0
 
     &.filter {
-      border: 1px solid var(--icon-gray-light);
+      border: 0.0625rem solid var(--icon-gray-light);
       background: var(--white-color);
 
       &:hover {
@@ -336,8 +313,8 @@ table.callHistory {
     }
 
     &.add-user {
-      background:var(--btn-color);
-      border: 1px solid var(--btn-hover-color);
+      background: var(--btn-color);
+      border: 0.0625rem solid var(--btn-hover-color);
       color: var(--white-color);
 
       &:hover {
@@ -349,11 +326,18 @@ table.callHistory {
   // into mixin
   &--search {
     width: fit-content;
+    position: relative;
 
     & input {
       border-radius: var(--radius, 0.6rem) !important;
       border: 1px solid var(--border-color);
       background: var(--white-color);
+      padding-inline-start: 3rem;
+    }
+
+    & img,
+    & svg {
+      left: 6%;
     }
   }
 }

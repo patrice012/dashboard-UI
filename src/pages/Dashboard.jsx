@@ -20,7 +20,7 @@ const CallDetail = () => {
               </div>
             </div>
             <div>
-              <div className="inline-flex user">
+              <div className="user">
                 <span className="user--name">Hart Hagerty</span>
                 <span>
                   <img src="/src/assets/flag.png" />
@@ -57,7 +57,7 @@ const CallHistory = () => {
           {/* head */}
           <thead className="">
             <tr>
-              <th className="inline-flex">
+              <th>
                 <label>
                   <input type="checkbox" className="checkbox" />
                 </label>
@@ -158,7 +158,7 @@ const OutComes = () => {
 const ContentAction = () => {
   return (
     <section className="action inline-container">
-      <div className="max-container inline-flex">
+      <div className="max-container">
         <div className="action--buttons">
           <button className="btn filter">
             <img src="/src/assets/Filters-lines.svg" />
@@ -172,6 +172,7 @@ const ContentAction = () => {
         </div>
         <div className="form-control action--search">
           <input type="text" placeholder="Search" className="input" />
+          <img src="/src/assets/search.svg" />
         </div>
       </div>
     </section>
@@ -196,13 +197,14 @@ const Dashboard = () => {
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content  content-bg">
           {/* Page content here */}
-          <Content />
           <label
             htmlFor="my-drawer-2"
             className="btn btn-primary drawer-button lg:hidden"
           >
             Open pannel
           </label>
+          <Content />
+
         </div>
         <div className="drawer-side sideBar">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>

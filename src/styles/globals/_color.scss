@@ -1,4 +1,5 @@
 :root {
+  --main-color:rgb(16, 24, 40);
   --white-color: rgba(255, 255, 255, 1);
   --btn-color: rgba(0, 10, 255, 1);
   --btn-hover-color: rgba(114, 128, 255, 1);
@@ -14,5 +15,6 @@
   --second-text-color: rgba(138, 146, 166, 1);
   --icon-hover: rgba(78, 79, 88, 0.908);
 
+  // use another partials files for other varaibles
   --radius: 0.6rem;
 }

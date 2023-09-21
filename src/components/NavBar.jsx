@@ -1,14 +1,14 @@
 const NavBar = () => {
   return (
     <div className="navbar">
-      <div className="max-container inline-flex">
+      <div className="max-container">
         <div className="">
-          <p className="btn btn-ghost normal-case text-xl">
+          <p className="btn btn-ghost normal-case text-l">
             <span className="intro">Hello, John</span>
             <img src="/src/assets/hola.png" />
           </p>
         </div>
-        <div className="inline-flex">
+        <div className="navbar--search">
           <div className="form-control search--container">
             <input
               type="text"
