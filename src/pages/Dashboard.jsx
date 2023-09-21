@@ -106,12 +106,13 @@ const CallHistory = () => {
                 <button className="join-item footer--btn">Previous</button>
               </th>
               <th></th>
-              <th></th>
+
               <th>
                 <div className="join">
                   <button className="join-item ">Page 1 of 10</button>
                 </div>
               </th>
+              <th></th>
               <th></th>
               <th>
                 <button className="join-item footer--btn">Next</button>
@@ -144,7 +145,7 @@ const Card = () => {
 const OutComes = () => {
   return (
     <section className="inline-container">
-      <div className="max-container inline-flex outcomes">
+      <div className="max-container outcomes">
         <Card />
         <Card />
         <Card />

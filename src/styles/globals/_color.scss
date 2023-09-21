@@ -1,21 +1,18 @@
 :root {
-  --panel-bg: rgb(54, 55, 64);
-  --panel-color: #dde2ff;
-  --panel-icon-color: rgba(255, 255, 255, 1);
---black-color: rgba(0, 0, 0, 0.822);
-  --main-text-color: rgba(35, 45, 66, 1);
-  --second-text-color: rgba(138, 146, 166, 1);
-  --second-text-color-light: rgba(173, 181, 189, 1);
-  --icon-color: rgba(233, 236, 239, 1);
-  --icon-gray-light: rgba(208, 213, 221, 1);
-  --icon-gray: rgba(102, 112, 133, 1);
-  --pagination-color: rgba(52, 64, 84, 1);
   --white-color: rgba(255, 255, 255, 1);
-  --name-color: rgba(16, 24, 40, 1);
   --btn-color: rgba(0, 10, 255, 1);
   --btn-hover-color: rgba(114, 128, 255, 1);
-  --panel-header-color: rgba(249, 250, 251, 1);
-  // --medium-text-color:rgba(102, 112, 133, 1);
+  --pagination-color: rgba(52, 64, 84, 1);
+  --icon-gray-light: rgba(208, 213, 221, 1);
+  --panel-header-bg: rgba(249, 250, 251, 1);
+  --white-border: rgb(234, 236, 240);
+  --card-shadow: rgba(17, 38, 146, 0.05);
+  --border-color: rgb(209, 209, 209);
+  --panel-bg: rgb(54, 55, 64);
+  --second-text-color-light: rgba(159, 162, 180, 1);
+  --panel-color: rgb(221, 226, 255);
+  --second-text-color: rgba(138, 146, 166, 1);
+  --icon-hover: rgba(78, 79, 88, 0.908);
 
-  --raduis:.375rem;
+  --radius: 0.6rem;
 }
