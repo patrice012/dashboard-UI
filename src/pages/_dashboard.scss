@@ -60,11 +60,10 @@
     color: var(--second-text-color-light);
 
     &:hover {
-    color: var(--panel-color);
-    transition: color 0.3s ease-out;
+      color: var(--panel-color);
+      transition: color 0.3s ease-out;
     }
   }
-
 
   & a {
     font-size: 1rem;
@@ -80,23 +79,26 @@
 
 // nav-bar
 
-
 .navbar {
   background-color: var(--white-color);
   border-bottom: 1px solid var(--icon-gray-light);
   height: 6rem;
-  padding: 0.625rem 1.625rem;
-  padding-inline: 1rem;
 
   & > div,
   &--search {
     @include u.flex($justify: space-between, $align: center);
-  }
-}
 
-.inline-container {
-  display: grid;
-  place-items: center;
+    // & input {
+    //   transform: scale(0) translateX(100%);
+    //   visibility: hidden;
+
+    //   &:focus{
+    //     border: 1px solid red;
+    //     transform: scale(1) translateX(0);
+    //     visibility: initial;
+    //   }
+    // }
+  }
 }
 
 .intro {
@@ -115,14 +117,15 @@
   & input {
     width: 100%;
     border-radius: calc(2.6 * var(--radius)); //25px
-    border: 0.125rem solid var(--border-color);
+    border: 0.125rem solid var(--border-color); //1px
     background: var(--white-color);
   }
 
   & img {
     position: absolute;
     top: 50%;
-    left: 88%;
+    // left: 88%;
+    right: 7%;
     transform: translateY(-50%);
   }
 }
@@ -274,6 +277,10 @@ table.callHistory {
       background-color: var(--white-border);
       transition: background-color 0.3s ease-in;
     }
+
+    &.next--btn {
+      transform: translateX(1.25rem); // 20px
+    }
   }
 
   .footer--btn {
@@ -289,6 +296,11 @@ table.callHistory {
 
   & > div {
     @include u.flex($justify: space-between, $align: center);
+    @include u.breakpoint-down(medium) {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem; //16px
+    }
   }
 
   &--buttons {
@@ -327,10 +339,15 @@ table.callHistory {
   &--search {
     width: fit-content;
     position: relative;
+    & {
+      @include u.breakpoint-down(small) {
+        width: 100%;
+      }
+    }
 
     & input {
       border-radius: var(--radius, 0.6rem) !important;
-      border: 1px solid var(--border-color);
+      border: 0.0625rem solid var(--border-color);//1px
       background: var(--white-color);
       padding-inline-start: 3rem;
     }

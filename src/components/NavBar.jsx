@@ -1,10 +1,25 @@
+import fetchData from "../utils/fetchData";
+
+import { userEndpoint } from "../../server/endpoint";
+import { useEffect, useState } from "react";
+
 const NavBar = () => {
+  const [user, setUser] = useState({});
+
+  const endpoint = `${userEndpoint}/1`;
+
+  useEffect(() => {
+    fetchData(endpoint)
+      .then((res) => setUser(res))
+      .catch((err) => console.log(err));
+  }, [endpoint]);
+
   return (
     <div className="navbar">
       <div className="max-container">
         <div className="">
           <p className="btn btn-ghost normal-case text-l">
-            <span className="intro">Hello, John</span>
+            <span className="intro">Hello, {user.name}</span>
             <img src="/src/assets/hola.png" />
           </p>
         </div>
@@ -20,7 +35,7 @@ const NavBar = () => {
           <div className="dropdown dropdown-end">
             <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src="/src/assets/user.svg" className="profil" />
+                <img src={user.profil_img} className="profil" />
               </div>
             </label>
             <ul

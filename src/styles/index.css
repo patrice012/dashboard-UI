@@ -124,6 +124,34 @@ input[type=checkbox]:checked::before {
   background-color: var(--white-color);
 }
 
+@media screen and (min-width: 63.9375em) {
+  .drawer.dashboard {
+    display: grid;
+    grid-template-columns: minmax(15.625rem, max-content) auto !important;
+  }
+}
+@media screen and (max-width: 64em) {
+  .drawer.dashboard {
+    display: block;
+  }
+}
+@media screen and (max-width: 64em) {
+  .drawer.dashboard .menu {
+    width: minmax(15.625rem, -moz-max-content);
+    width: minmax(15.625rem, max-content);
+  }
+}
+.drawer-button {
+  color: red;
+}
+@media screen and (max-width: 64em) {
+  .drawer-button {
+    position: absolute;
+    top: 1.5625rem;
+    left: 1.25rem;
+  }
+}
+
 .bg-main {
   background-color: var(--panel-bg);
 }
@@ -204,8 +232,6 @@ input[type=checkbox]:checked::before {
   background-color: var(--white-color);
   border-bottom: 1px solid var(--icon-gray-light);
   height: 6rem;
-  padding: 0.625rem 1.625rem;
-  padding-inline: 1rem;
 }
 .navbar > div, .navbar--search {
   display: flex;
@@ -214,11 +240,6 @@ input[type=checkbox]:checked::before {
   flex-direction: row;
   flex-wrap: nowrap;
   max-width: 100%;
-}
-
-.inline-container {
-  display: grid;
-  place-items: center;
 }
 
 .intro {
@@ -242,7 +263,7 @@ input[type=checkbox]:checked::before {
 .form-control img {
   position: absolute;
   top: 50%;
-  left: 88%;
+  right: 7%;
   transform: translateY(-50%);
 }
 
@@ -393,6 +414,9 @@ table.callHistory thead > tr > th:first-child {
   background-color: var(--white-border);
   transition: background-color 0.3s ease-in;
 }
+.callHistory tfoot button.next--btn {
+  transform: translateX(1.25rem);
+}
 .callHistory tfoot .footer--btn {
   border: 1px solid var(--icon-gray-light);
   color: var(--pagination-color);
@@ -408,6 +432,13 @@ table.callHistory thead > tr > th:first-child {
   flex-direction: row;
   flex-wrap: nowrap;
   max-width: 100%;
+}
+@media screen and (max-width: 47.1875em) {
+  .action > div {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
 }
 .action--buttons {
   display: flex;
@@ -442,9 +473,14 @@ table.callHistory thead > tr > th:first-child {
   width: fit-content;
   position: relative;
 }
+@media screen and (max-width: 28.625em) {
+  .action--search {
+    width: 100%;
+  }
+}
 .action--search input {
   border-radius: var(--radius, 0.6rem) !important;
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   background: var(--white-color);
   padding-inline-start: 3rem;
 }

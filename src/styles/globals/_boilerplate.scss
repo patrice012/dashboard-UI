@@ -1,3 +1,5 @@
+@use "../utils" as u;
+
 html {
   box-sizing: border-box;
   font-size: 100%;
@@ -10,7 +12,7 @@ html {
 }
 
 body {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 img {
@@ -20,8 +22,7 @@ img {
 }
 
 button {
-border-radius:var(--radius, 0.6rem);
-
+  border-radius: var(--radius, 0.6rem);
 }
 
 .max-container {
@@ -37,8 +38,8 @@ border-radius:var(--radius, 0.6rem);
 }
 
 input[type="checkbox"]:checked::before {
-accent-color: var(--white-color) !important;
-background-color: var(--white-color);
+  accent-color: var(--white-color) !important;
+  background-color: var(--white-color);
 }
 
 // .drawer {
@@ -47,5 +48,33 @@ background-color: var(--white-color);
 //   left: 20px;
 //   transform: translate(15px 23px);
 // }
+
+.drawer {
+  &.dashboard {
+    @include u.breakpoint(large) {
+      display: grid;
+      grid-template-columns: minmax(15.625rem, max-content) auto !important; // 250px
+    }
+
+    @include u.breakpoint-down(large) {
+      display: block;
+    }
+
+    .menu {
+      @include u.breakpoint-down(large) {
+        width: minmax(15.625rem, max-content); //250px
+      }
+    }
+  }
+
+  &-button {
+    color: red;
+    @include u.breakpoint-down(large) {
+      position: absolute;
+      top: 1.5625rem; //25px
+      left: 1.25rem; //20px
+    }
+  }
+}
 
 // ====================
