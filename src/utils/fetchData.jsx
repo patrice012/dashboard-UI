@@ -1,8 +1,14 @@
-async function fetchData(endpoint) {
+async function fetchData(endpoint, request = undefined) {
   try {
-    const response = await fetch(endpoint);
-    const data = await response.json();
-    return data;
+    let response =''
+    if (request) {
+      response = await fetch(endpoint, request);
+    } else {
+      response = await fetch(endpoint);
+    }
+
+    const output = await response.json();
+    return output;
   } catch (err) {
     // maybe send UI information to user...
     console.log(err);

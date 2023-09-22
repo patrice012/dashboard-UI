@@ -1,4 +1,22 @@
+import { useState } from "react";
+import { useHistory } from "../hooks/history-hooks";
+
 const ContentAction = () => {
+  const [input, setInput] = useState("");
+  const { filterHistory } = useHistory();
+
+  const handleChange = (e) => {
+    setInput(e.target.value);
+  };
+
+  const handleSumit = (e) => {
+    e.preventDefault();
+    filterHistory(input);
+    // reset the input field
+    e.target.reset()
+  };
+
+
   return (
     <section className="action ">
       <div className="max-container">
@@ -14,7 +32,15 @@ const ContentAction = () => {
           <span>1 row selected</span>
         </div>
         <div className="form-control action--search">
-          <input type="text" placeholder="Search" className="input" />
+          {/* <input type="text" placeholder="Search" className="input" /> */}
+          <form onSubmit={(e) => handleSumit(e)}>
+            <input
+              onChange={handleChange}
+              type="text"
+              placeholder="Search"
+              className="input"
+            />
+          </form>
           <img src="/src/assets/search.svg" />
         </div>
       </div>

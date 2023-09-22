@@ -2,19 +2,15 @@ import NavBar from "../components/NavBar";
 import OutComes from "./OutComes";
 import CallHistory from "./CallHistory";
 import ContentAction from "./Action";
-import {CallHistoryProvider} from "../contexts/call-history-hook";
+import { CallHistoryProvider } from "../contexts/call-history-hook";
 
 const Content = () => {
-
-
   return (
     <>
       <NavBar />
       <OutComes />
       <ContentAction />
-      <CallHistoryProvider>
-        <CallHistory />
-      </CallHistoryProvider>
+      <CallHistory />
     </>
   );
 };
@@ -32,7 +28,9 @@ const Dashboard = () => {
           >
             Open pannel
           </label>
-          <Content />
+          <CallHistoryProvider>
+            <Content />
+          </CallHistoryProvider>
         </div>
         <div className="drawer-side sideBar">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>

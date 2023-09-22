@@ -1,43 +1,69 @@
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
 import { useHistory } from "../hooks/history-hooks";
+import { useEffect } from "react";
+import { callEndpoint } from "../../server/endpoint";
 
-const CallDetail = () => {
+const CallDetail = ({
+  id,
+  name,
+  contry,
+  flag,
+  profil_img,
+  language,
+  occupation,
+  objective,
+  subscription,
+  selected,
+}) => {
+  const { removeHistory, selectHistory } = useHistory();
+  // const handleClick = () => {
+  //   selectHistory(selected, id).then((re) => console.log(re, "form"));
+  //   console.log('click')
+  // }
+  // console.log(selected, 'selected')
+
   return (
     <>
       <tr>
         <td>
           <div className="flex items-center space-x-3">
             <label>
-              <input type="checkbox" className="checkbox" />
+              <input
+                onChange={() => {selectHistory(selected, id)}}
+                checked={selected}
+                type="checkbox"
+                className="checkbox"
+              />
             </label>
             <div className="avatar">
               <div className="mask mask-squircle w-12 h-12">
-                <img
-                  src="/src/assets/user.svg"
-                  alt="Avatar Tailwind CSS Component"
-                />
+                <img src={profil_img} alt="profile picture" />
               </div>
             </div>
             <div>
               <div className="user">
-                <span className="user--name">Hart Hagerty</span>
+                <span className="user--name">{name}</span>
                 <span>
-                  <img src="/src/assets/flag.png" />
+                  <img src={flag} />
                 </span>
               </div>
-              <div className="user--email">United States</div>
+              <div className="user--email">{contry}</div>
             </div>
           </div>
         </td>
-        <td>English</td>
-        <td>Freelance</td>
-        <th>Fluent</th>
-        <th>Free Trial</th>
+        <td>{language}</td>
+        <td>{occupation}</td>
+        <th>{objective}</th>
+        <th>{subscription}</th>
         <th>
           <div className="row-action">
             <div>
-              <HiOutlineTrash />
+              <HiOutlineTrash
+                onClick={() => {
+                  removeHistory(id);
+                }}
+              />
             </div>
             <div>
               <HiOutlinePencil />
@@ -50,13 +76,18 @@ const CallDetail = () => {
 };
 
 const CallHistory = () => {
-  const { histories } = useHistory();
+  const { histories, getData } = useHistory();
 
-  
+  const endpoint = callEndpoint;
+
+  useEffect(() => {
+    getData(endpoint);
+  }, [endpoint]);
 
   const historyList = histories.map((history) => {
-    return <CallDetail key={history.id} {...history} />;
+    return <CallDetail key={[history.id, history.state]} {...history} />;
   });
+
   return (
     <section>
       <div className="overflow-x-auto max-container">
