@@ -1,7 +1,9 @@
 import { createContext, useState } from "react";
 import { callEndpoint } from "../../server/endpoint";
 import fetchData from "../utils/fetchData";
-import { useEffect } from "react";
+// import { useEffect } from "react";
+
+import { useFetch } from "../utils/useFetch";
 
 const CallHistoryContext = createContext();
 
@@ -11,44 +13,68 @@ function CallHistoryProvider({ children }) {
 
   const endpoint = `${callEndpoint}`;
 
-async function getData(endpoint) {
-    try {
-      const res = await fetchData(endpoint);
-      return setHistory(res);
-    } catch (err) {
-      return console.log(err);
-    }
-  }
+  // async function getData(endpoint) {
+  //   try {
+  //     const res = await fetchData(endpoint);
+  //     return setHistory(res);
+  //   } catch (err) {
+  //     return console.log(err);
+  //   }
+  // }
 
-  // useEffect(() => {
-  //   getData(endpoint);
-  // }, [endpoint]);
+  const creaeHistory = () => {
+    fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "foo",
+        body: "bar",
+        userId: 1,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => setHistory([...histories, json]));
+  };
+  const updateHistory = () => {
+    const url = `${endpoint}/${id}`;
+    fetch(url, {
+      method: "PUT",
+      body: JSON.stringify({
+        id: 1,
+        title: "foo",
+        body: "bar",
+        userId: 1,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => setHistory([...histories, json]));
+  };
 
   const removeHistory = (id) => {
+    const url = `${endpoint}/${id}`;
     if (!id) {
       throw new Error("Id is missing...");
     }
-    fetch(`${endpoint}/${id}`, { method: "DELETE" })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Object ${id} does not exists...`);
-        }
-        getData(endpoint);
-        console.log(res, "delete succes");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetch(url, {
+      method: "DELETE",
+    });
+    // const endpoint = `${userEndpoint}/1`;
+    const { data: histories } = fetch(endpoint).then(r => r.json());
+    setHistory([histories])
   };
 
   const filterHistory = (input) => {
-    const filteredHistory = histories.filter(
-      (history) => history.name === input
-    );
-    setHistory(filteredHistory);
+    const url = `${endpoint}/${input}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {setHistory([json]);});
+    // setHistory(filteredHistory);
   };
-
-
 
   const selectHistory = (state, id) => {
     console.log(state, "before");
@@ -71,10 +97,10 @@ async function getData(endpoint) {
     //   .catch((err) => {
     //     console.log(err);
     //   });
-    const new_objs = histories.filter((his) => his.id == id)
-    new_objs['selected'] = !state;
+    const new_objs = histories.filter((his) => his.id == id);
+    new_objs["selected"] = !state;
     setHistory([...histories, ...new_objs]);
-    console.log([...histories,...new_objs], "value");
+    console.log([...histories, ...new_objs], "value");
   };
 
   return (
@@ -84,7 +110,7 @@ async function getData(endpoint) {
         removeHistory,
         filterHistory,
         selectHistory,
-        getData,
+        creaeHistory,updateHistory
       }}
     >
       {children}

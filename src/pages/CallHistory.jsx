@@ -1,7 +1,8 @@
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
 import { useHistory } from "../hooks/history-hooks";
-import { useEffect } from "react";
+// import { useEffect } from "react";
+import {useFetch} from "../utils/useFetch";
 import { callEndpoint } from "../../server/endpoint";
 
 const CallDetail = ({
@@ -30,7 +31,9 @@ const CallDetail = ({
           <div className="flex items-center space-x-3">
             <label>
               <input
-                onChange={() => {selectHistory(selected, id)}}
+                onChange={() => {
+                  selectHistory(selected, id);
+                }}
                 checked={selected}
                 type="checkbox"
                 className="checkbox"
@@ -76,23 +79,23 @@ const CallDetail = ({
 };
 
 const CallHistory = () => {
-  const { histories, getData } = useHistory();
+  // const { histories, getData } = useHistory();
 
   const endpoint = callEndpoint;
 
-  useEffect(() => {
-    getData(endpoint);
-  }, [endpoint]);
+  // useEffect(() => {
+  //   getData(endpoint);
+  // }, [endpoint]);
+  const { error, isPending, data: histories } = useFetch(endpoint);
 
-  const historyList = histories.map((history) => {
-    return <CallDetail key={[history.id, history.state]} {...history} />;
-  });
+  // const historyList = histories.map((history) => {
+  //   return <CallDetail key={[history.id, history.state]} {...history} />;
+  // });
 
   return (
     <section>
       <div className="overflow-x-auto max-container">
         <table className="table callHistory">
-          {/* head */}
           <thead className="">
             <tr>
               <th>
@@ -131,8 +134,26 @@ const CallHistory = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody>{historyList}</tbody>
-          {/* foot */}
+          <tbody>
+            {isPending && (
+              <tr>
+                <th>Loading...</th>
+              </tr>
+            )}
+            {/* {!isPending && <tbody>{historyList}</tbody>} */}
+            {!isPending &&
+              !error &&
+              histories.map((history) => {
+                return (
+                  <CallDetail key={[history.id, history.state]} {...history} />
+                );
+              })}
+            {error && (
+              <tr className="error">
+                <th>{error}</th>
+              </tr>
+            )}
+          </tbody>
           <tfoot>
             <tr>
               <th>

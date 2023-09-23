@@ -78,3 +78,13 @@ input[type="checkbox"]:checked::before {
 }
 
 // ====================
+
+.error {
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: red;
+  width: 100%;
+  padding: 1rem 0rem;
+}
