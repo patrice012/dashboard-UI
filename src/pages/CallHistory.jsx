@@ -6,7 +6,7 @@ import { callEndpoint } from "../../server/endpoint";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 import fetchData from "../hooks/fetchData";
-
+import { useState } from "react";
 
 const CallDetail = ({
   id,
@@ -31,10 +31,12 @@ const CallDetail = ({
     },
   });
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    
+    console.log(e, 'id for object')
+    e.preventDefault();
     return mutation.mutate(id);
   };
-
 
   return (
     <>
@@ -82,12 +84,20 @@ const CallDetail = ({
             <dialog id="my_modal_2" className="modal delete-user">
               <div className="modal-box">
                 <h3 className="font-bold text-lg">Confirm object deletion.</h3>
-                
-                <button onClick={handleClick}>Confirm</button>
+                <form>
+                  <input value={id} hidden readOnly />
+                  <button
+                    onClick={(e) => {
+                      handleClick(e);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                </form>
                 <p className="py-4">Press ESC key or click outside to close</p>
               </div>
               <form method="dialog" className="modal-backdrop">
-                <button>close</button>
+                <button id="closeBtn">close</button>
               </form>
             </dialog>
 
@@ -102,97 +112,115 @@ const CallDetail = ({
 };
 
 const CallHistory = () => {
+  const [page, setPage] = useState(0);
   // Queries
-  const url = callEndpoint;
-  const query = useQuery({
+  const url = `${callEndpoint}`;
+  // const url = `${callEndpoint}?page=${page}`;
+  const {
+    isLoading,
+    isError,
+    error,
+    data,
+    isSuccess,
+    isPreviousData,
+  } = useQuery({
     queryKey: ["call", url],
-    queryFn: fetchData,
+    queryFn: () => fetchData(url),
+    keepPreviousData: true,
+    networkMode:'always'
   });
 
   return (
     <section>
       <div className="overflow-x-auto max-container">
-        <table className="table callHistory">
-          <thead className="">
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-                <label>
-                  <span>Learners</span>
-                  <img src="/src/assets/Icon.svg" />
-                </label>
-              </th>
-              <th>
-                <label>
-                  <span>Language</span>
-                  <img src="/src/assets/Icon.svg" />
-                </label>
-              </th>
-              <th>
-                <label>
-                  <span>Occupation</span>
-                  <img src="/src/assets/Icon.svg" />
-                </label>
-              </th>
-              <th>
-                <label>
-                  <span>Objective</span>
-                  <img src="/src/assets/Icon.svg" />
-                </label>
-              </th>
-              <th>
-                <label>
-                  <span>Subscription</span>
-                  <img src="/src/assets/Icon.svg" />
-                </label>
-              </th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {query.isLoading && (
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : isError ? (
+          <p>{error}</p>
+        ) : (
+          <table className="table callHistory">
+            <thead className="">
               <tr>
-                <th>Loading...</th>
+                <th>
+                  <label>
+                    <input type="checkbox" className="checkbox" />
+                  </label>
+                  <label>
+                    <span>Learners</span>
+                    <img src="/src/assets/Icon.svg" />
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    <span>Language</span>
+                    <img src="/src/assets/Icon.svg" />
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    <span>Occupation</span>
+                    <img src="/src/assets/Icon.svg" />
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    <span>Objective</span>
+                    <img src="/src/assets/Icon.svg" />
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    <span>Subscription</span>
+                    <img src="/src/assets/Icon.svg" />
+                  </label>
+                </th>
+                <th></th>
               </tr>
-            )}
-            {!query.isError && (
+            </thead>
+            <tbody>
+              {isSuccess &&
+                data.map((history) => {
+                  return <CallDetail key={history.id} {...history} />;
+                })}
+            </tbody>
+            <tfoot>
               <tr>
-                <th>{query.error}</th>
-              </tr>
-            )}
-            {query.isSuccess &&
-              query.data.map((history) => {
-                return (
-                  <CallDetail key={[history.id, history.state]} {...history} />
-                );
-              })}
-          </tbody>
-          <tfoot>
-            <tr>
-              <th>
-                <button className="join-item footer--btn previous--btn">
-                  Previous
-                </button>
-              </th>
-              <th></th>
+                <th>
+                  <button
+                    onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                    disabled={page === 0}
+                    className="join-item footer--btn previous--btn"
+                  >
+                    Previous
+                  </button>
+                </th>
+                <th></th>
 
-              <th>
-                <div className="join">
-                  <button className="join-item ">Page 1 of 10</button>
-                </div>
-              </th>
-              <th></th>
-              <th></th>
-              <th>
-                <button className="join-item footer--btn next--btn">
-                  Next
-                </button>
-              </th>
-            </tr>
-          </tfoot>
-        </table>
+                <th>
+                  <div className="join">
+                    <button
+                      onClick={() => {
+                        if (!isPreviousData && data.hasMore)
+                          setPage((old) => old + 1);
+                      }}
+                      disabled={isPreviousData || !data?.hasMore}
+                      className="join-item "
+                    >
+                      Page {page + 1} of 10
+                    </button>
+                  </div>
+                </th>
+                <th></th>
+                <th></th>
+                <th>
+                  <button className="join-item footer--btn next--btn">
+                    Next
+                  </button>
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        )}
       </div>
     </section>
   );

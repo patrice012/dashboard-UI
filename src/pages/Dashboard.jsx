@@ -12,7 +12,7 @@ const Content = () => {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        {/* <NavBar /> */}
+        <NavBar />
         <OutComes />
         <ContentAction />
         {/* <AddUser/> */}

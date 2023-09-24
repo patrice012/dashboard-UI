@@ -9,24 +9,32 @@ const NavBar = () => {
   const endpoint = `${userEndpoint}/1`;
 
 
-    const query = useQuery({
-      queryKey: ["profil", endpoint],
-      queryFn: fetchData,
+    const {isError, isLoading, error, data: user} = useQuery({
+      queryKey: ["profil"],
+      queryFn: () => fetchData(endpoint),
     });
 
 
   return (
     <div className="navbar">
-      {query.isError && <p className="error">{query.error}</p>}
-      {query.isLoading && <p className="error">Loading...</p>}
-      {query.isSuccess && (
-        <div className="max-container">
-          <div className="">
+      <div className="max-container">
+        <div className="">
+          {isLoading ? (
+            "Loading..."
+          ) : isError ? (
+            { error }
+          ) : (
             <p className="btn btn-ghost normal-case text-l">
-              <span className="intro">Hello, {query.data.name}</span>
+              <span className="intro">`Hello, ${user.name}`</span>
               <img src="/src/assets/hola.png" />
             </p>
-          </div>
+          )}
+        </div>
+        {isLoading ? (
+          "Loading..."
+        ) : isError ? (
+          { error }
+        ) : (
           <div className="navbar--search">
             <div className="form-control search--container">
               <input
@@ -39,7 +47,7 @@ const NavBar = () => {
             <div className="dropdown dropdown-end">
               <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img src={query.data.profil_img} className="profil" />
+                  <img src={user.profil_img} className="profil" />
                 </div>
               </label>
               <ul
@@ -61,8 +69,8 @@ const NavBar = () => {
               </ul>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

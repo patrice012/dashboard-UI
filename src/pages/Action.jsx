@@ -3,6 +3,66 @@ import { callEndpoint } from "../../server/endpoint";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 
+const CreateUser = (props) => {
+  return (
+    <dialog id="my_modal_1" className="modal">
+      <div className="modal-box w-11/12 max-w-5xl">
+        <h3 className="font-bold text-lg">Create User</h3>
+
+        <form onSubmit={props.handleSumit} className="add-user--form" name="userForm">
+          <div className="join add-user--fields">
+            <input
+              className="input input-bordered join-item"
+              placeholder="Name"
+              name="username"
+              required
+              value = {props.name}
+            />
+
+            <input
+              className="input input-bordered join-item"
+              placeholder="Language"
+              name="language"
+              required
+            />
+            <input
+              className="input input-bordered join-item"
+              placeholder="Occupation"
+              name="occupation"
+              required
+            />
+            <input
+              className="input input-bordered join-item"
+              placeholder="Objective"
+              name="objective"
+              required
+            />
+            <input
+              className="input input-bordered join-item"
+              placeholder="Subscription"
+              name="subscription"
+              required
+            />
+            <select name="state" className="select select-bordered">
+              <option>United State</option>
+              <option>France</option>
+              <option>Germany</option>
+            </select>
+            <label className="label">
+              <span className="label-text-alt">Select State</span>
+            </label>
+          </div>
+          <button className="btn">Create User</button>
+        </form>
+        <div className="modal-action">
+          <form method="dialog">
+            <button className="btn">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+  );
+}
 
 const ContentAction = () => {
   const { createUser } = useHistory();
@@ -23,6 +83,7 @@ const ContentAction = () => {
   const handleSumit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    console.log(formData, 'formdata')
     const data = {
       name: formData.get("username"),
       contry: formData.get("state"),
@@ -33,6 +94,8 @@ const ContentAction = () => {
       objective: formData.get("objective"),
       subscription: formData.get("subscription"),
     };
+
+    console.log(data)
 
     // createUser(callEndpoint, data);
     // Initiate object creation mutation
@@ -57,8 +120,9 @@ const ContentAction = () => {
             <img src="/src/assets/plus.svg" />
             <span>Add User</span>
           </button>
+          <CreateUser/>
 
-          <dialog id="my_modal_1" className="modal">
+          {/* <dialog id="my_modal_1" className="modal">
             <div className="modal-box w-11/12 max-w-5xl">
               <h3 className="font-bold text-lg">Create User</h3>
 
@@ -72,51 +136,41 @@ const ContentAction = () => {
                     className="input input-bordered join-item"
                     placeholder="Name"
                     name="username"
-                  />
-                  <input
-                    className="input input-bordered join-item"
-                    placeholder="State"
-                    name="state"
+                    required
                   />
 
                   <input
                     className="input input-bordered join-item"
                     placeholder="Language"
                     name="language"
+                    required
                   />
                   <input
                     className="input input-bordered join-item"
                     placeholder="Occupation"
                     name="occupation"
+                    required
                   />
                   <input
                     className="input input-bordered join-item"
                     placeholder="Objective"
                     name="objective"
+                    required
                   />
                   <input
                     className="input input-bordered join-item"
                     placeholder="Subscription"
                     name="subscription"
+                    required
                   />
-                  {/* <select className="select select-bordered">
+                  <select name='state' className="select select-bordered">
                     <option>United State</option>
                     <option>France</option>
                     <option>Germany</option>
                   </select>
                   <label className="label">
                     <span className="label-text-alt">Select State</span>
-                  </label> */}
-                  {/* <div className="form-control w-full">
-                    <select className="select select-bordered">
-                      <option>United State</option>
-                      <option>France</option>
-                      <option>Germany</option>
-                    </select>
-                    <label className="label">
-                      <span className="label-text-alt">Select State</span>
-                    </label>
-                  </div> */}
+                  </label>
                 </div>
                 <button className="btn">Create User</button>
               </form>
@@ -126,7 +180,7 @@ const ContentAction = () => {
                 </form>
               </div>
             </div>
-          </dialog>
+          </dialog> */}
 
           <span>1 row selected</span>
         </div>

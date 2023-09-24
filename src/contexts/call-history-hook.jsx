@@ -16,12 +16,13 @@ function CallHistoryProvider({ children }) {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
+    if (!res.ok ) throw new Error("Server error...")
     return res.json()
   };
 
   const updateHistory = (id) => {
     const url = `${endpoint}/${id}`;
-    fetch(url, {
+    const res = fetch(url, {
       method: "PUT",
       body: JSON.stringify({
         id: 1,
@@ -33,9 +34,8 @@ function CallHistoryProvider({ children }) {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((response) => response.json())
-      .then((json) => setHistory([...histories, json]))
-      .catch((err) => console.log(err));
+    if (!res.ok) throw new Error('Server error...')
+    return res.json()
   };
 
   const deleteHistory = async (id) => {
@@ -47,6 +47,7 @@ function CallHistoryProvider({ children }) {
     const res = await fetch(url, {
       method: "DELETE",
     })
+    if (!res.ok) throw new Error("Server error...");
   };
 
   return (
