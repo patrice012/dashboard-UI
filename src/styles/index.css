@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -426,7 +425,7 @@ table.callHistory thead > tr > th:first-child {
   transition: background-color 0.3s ease-in;
 }
 .callHistory tfoot button.next--btn {
-  transform: translateX(1.25rem);
+  transform: translateX(0.5rem);
 }
 .callHistory tfoot .footer--btn {
   border: 1px solid var(--icon-gray-light);
@@ -497,4 +496,90 @@ table.callHistory thead > tr > th:first-child {
 }
 .action--search img, .action--search svg {
   left: 6%;
+}
+
+.add-user__container {
+  background-color: red;
+}
+.add-user--form {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+.add-user--form button {
+  margin-top: 1rem;
+  border: none;
+  color: var(--white-color);
+  border-radius: var(--radius, 0.6rem) !important;
+  background-color: var(--btn-color) !important;
+}
+.add-user--form button:hover {
+  background-color: var(--btn-hover-color);
+  opacity: 75%;
+  transition: all 0.3s ease-in;
+}
+.add-user--fields {
+  display: grid !important;
+  gap: 1rem;
+  width: 80% !important;
+  max-width: 100%;
+}
+.add-user--fields input, .add-user--fields select {
+  width: 100%;
+  border-radius: var(--radius) !important;
+}
+.add-user select label > span {
+  color: var(--icon-gray-light);
+  font-size: 0.8rem;
+}
+
+#my_modal_1 .modal-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  max-height: 100% !important;
+  position: relative;
+}
+#my_modal_1 .modal-box h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+#my_modal_1 .modal-action {
+  position: absolute;
+  top: -1%;
+  right: 2%;
+}
+
+.modal.delete-user {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.modal.delete-user div.modal-box {
+  height: -moz-fit-content;
+  height: fit-content;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+}
+.modal.delete-user div.modal-box > div {
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+}
+.modal.delete-user div.modal-box button {
+  border: none;
+  color: var(--white-color);
+  border-radius: var(--radius, 0.6rem);
+  background-color: var(--btn-color);
+  padding: 0.5rem 1.3rem;
+}
+.modal.delete-user div.modal-box button:hover {
+  background-color: var(--btn-hover-color);
+  opacity: 75%;
+  transition: all 0.3s ease-in;
 }/*# sourceMappingURL=index.css.map */

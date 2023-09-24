@@ -4,13 +4,20 @@ import CallHistory from "./CallHistory";
 import ContentAction from "./Action";
 import { CallHistoryProvider } from "../contexts/call-history-hook";
 
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+// import AddUser from "./CreateUser";
+
 const Content = () => {
+  const queryClient = new QueryClient();
   return (
     <>
-      <NavBar />
-      <OutComes />
-      <ContentAction />
-      <CallHistory />
+      <QueryClientProvider client={queryClient}>
+        {/* <NavBar /> */}
+        <OutComes />
+        <ContentAction />
+        {/* <AddUser/> */}
+        <CallHistory />
+      </QueryClientProvider>
     </>
   );
 };

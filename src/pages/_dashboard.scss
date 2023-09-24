@@ -280,7 +280,7 @@ table.callHistory {
     }
 
     &.next--btn {
-      transform: translateX(1.25rem); // 20px
+      transform: translateX(0.5rem); // 8px
     }
   }
 
@@ -348,7 +348,7 @@ table.callHistory {
 
     & input {
       border-radius: var(--radius, 0.6rem) !important;
-      border: 0.0625rem solid var(--border-color);//1px
+      border: 0.0625rem solid var(--border-color); //1px
       background: var(--white-color);
       padding-inline-start: 3rem;
     }
@@ -356,6 +356,104 @@ table.callHistory {
     & img,
     & svg {
       left: 6%;
+    }
+  }
+}
+
+// ======= Create user
+
+.add-user {
+  &__container {
+    background-color: red;
+  }
+
+  &--form {
+    width: 80%;
+    @include u.flex($justify: center, $align: center, $direction: column);
+
+    & button {
+      margin-top: 1rem;
+      border: none;
+      color: var(--white-color);
+      border-radius: var(--radius, 0.6rem) !important;
+      background-color: var(--btn-color) !important;
+      &:hover {
+        background-color: var(--btn-hover-color);
+        opacity: 75%;
+        transition: all 0.3s ease-in;
+      }
+    }
+  }
+
+  &--fields {
+    display: grid !important;
+    gap: 1rem;
+    width: 80% !important;
+    max-width: 100%;
+
+    & input,
+    & select {
+      width: 100%;
+      border-radius: var(--radius) !important;
+    }
+  }
+
+  & select label > span {
+    color: var(--icon-gray-light);
+    font-size: 0.8rem; // 12.8px
+  }
+}
+
+#my_modal_1 {
+  .modal {
+    &-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      max-height: 100% !important;
+      position: relative;
+
+      & h3 {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+    }
+
+    &-action {
+      position: absolute;
+      top: -1%;
+      right: 2%;
+    }
+  }
+}
+
+.modal.delete-user {
+  height: 100%;
+  display: grid;
+  place-items: center;
+
+  div.modal-box {
+    height: fit-content ;
+    display: grid ;
+    place-items: center;
+    gap: 1rem;
+
+    & > div {
+      height: fit-content !important;
+    }
+
+    & button {
+      border: none;
+      color: var(--white-color);
+      border-radius: var(--radius, 0.6rem);
+      background-color: var(--btn-color);
+      padding: .5rem 1.3rem;
+      &:hover {
+        background-color: var(--btn-hover-color);
+        opacity: 75%;
+        transition: all 0.3s ease-in;
+      }
     }
   }
 }

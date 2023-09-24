@@ -1,20 +1,29 @@
-import {useFetch} from "../utils/useFetch";
 import { userEndpoint } from "../../server/endpoint";
+import { useQuery } from "@tanstack/react-query";
+
+import fetchData from "../hooks/fetchData";
+
 
 const NavBar = () => {
 
   const endpoint = `${userEndpoint}/1`;
-  const { error, isPending, data: user } = useFetch(endpoint);
+
+
+    const query = useQuery({
+      queryKey: ["profil", endpoint],
+      queryFn: fetchData,
+    });
 
 
   return (
     <div className="navbar">
-      {error && <p className="error">{error}</p>}
-      {!error && (
+      {query.isError && <p className="error">{query.error}</p>}
+      {query.isLoading && <p className="error">Loading...</p>}
+      {query.isSuccess && (
         <div className="max-container">
           <div className="">
             <p className="btn btn-ghost normal-case text-l">
-              {!isPending && <span className="intro">Hello, {user.name}</span>}
+              <span className="intro">Hello, {query.data.name}</span>
               <img src="/src/assets/hola.png" />
             </p>
           </div>
@@ -30,9 +39,7 @@ const NavBar = () => {
             <div className="dropdown dropdown-end">
               <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  {!isPending && (
-                    <img src={user.profil_img} className="profil" />
-                  )}
+                  <img src={query.data.profil_img} className="profil" />
                 </div>
               </label>
               <ul

@@ -1,9 +1,12 @@
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
 import { useHistory } from "../hooks/history-hooks";
-// import { useEffect } from "react";
-import {useFetch} from "../utils/useFetch";
 import { callEndpoint } from "../../server/endpoint";
+
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+
+import fetchData from "../hooks/fetchData";
+
 
 const CallDetail = ({
   id,
@@ -17,12 +20,21 @@ const CallDetail = ({
   subscription,
   selected,
 }) => {
-  const { removeHistory, selectHistory } = useHistory();
-  // const handleClick = () => {
-  //   selectHistory(selected, id).then((re) => console.log(re, "form"));
-  //   console.log('click')
-  // }
-  // console.log(selected, 'selected')
+  const { deleteHistory } = useHistory();
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation((id) => deleteHistory(id), {
+    onSuccess: () => {
+      // Invalidate the query to trigger a re-fetch and update the UI
+      queryClient.invalidateQueries({ queryKey: ["call"] });
+    },
+  });
+
+  const handleClick = () => {
+    return mutation.mutate(id);
+  };
+
 
   return (
     <>
@@ -31,10 +43,8 @@ const CallDetail = ({
           <div className="flex items-center space-x-3">
             <label>
               <input
-                onChange={() => {
-                  selectHistory(selected, id);
-                }}
-                checked={selected}
+                defaultChecked
+                // checked={selected}
                 type="checkbox"
                 className="checkbox"
               />
@@ -63,11 +73,24 @@ const CallDetail = ({
           <div className="row-action">
             <div>
               <HiOutlineTrash
-                onClick={() => {
-                  removeHistory(id);
-                }}
+                onClick={() =>
+                  document.getElementById("my_modal_2").showModal()
+                }
               />
             </div>
+
+            <dialog id="my_modal_2" className="modal delete-user">
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">Confirm object deletion.</h3>
+                
+                <button onClick={handleClick}>Confirm</button>
+                <p className="py-4">Press ESC key or click outside to close</p>
+              </div>
+              <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+
             <div>
               <HiOutlinePencil />
             </div>
@@ -79,18 +102,12 @@ const CallDetail = ({
 };
 
 const CallHistory = () => {
-  // const { histories, getData } = useHistory();
-
-  const endpoint = callEndpoint;
-
-  // useEffect(() => {
-  //   getData(endpoint);
-  // }, [endpoint]);
-  const { error, isPending, data: histories } = useFetch(endpoint);
-
-  // const historyList = histories.map((history) => {
-  //   return <CallDetail key={[history.id, history.state]} {...history} />;
-  // });
+  // Queries
+  const url = callEndpoint;
+  const query = useQuery({
+    queryKey: ["call", url],
+    queryFn: fetchData,
+  });
 
   return (
     <section>
@@ -135,24 +152,22 @@ const CallHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {isPending && (
+            {query.isLoading && (
               <tr>
                 <th>Loading...</th>
               </tr>
             )}
-            {/* {!isPending && <tbody>{historyList}</tbody>} */}
-            {!isPending &&
-              !error &&
-              histories.map((history) => {
+            {!query.isError && (
+              <tr>
+                <th>{query.error}</th>
+              </tr>
+            )}
+            {query.isSuccess &&
+              query.data.map((history) => {
                 return (
                   <CallDetail key={[history.id, history.state]} {...history} />
                 );
               })}
-            {error && (
-              <tr className="error">
-                <th>{error}</th>
-              </tr>
-            )}
           </tbody>
           <tfoot>
             <tr>

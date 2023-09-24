@@ -42,13 +42,6 @@ input[type="checkbox"]:checked::before {
   background-color: var(--white-color);
 }
 
-// .drawer {
-//   position: fixed;
-//   top: 45px;
-//   left: 20px;
-//   transform: translate(15px 23px);
-// }
-
 .drawer {
   &.dashboard {
     @include u.breakpoint(large) {
