@@ -20,22 +20,45 @@ function CallHistoryProvider({ children }) {
     return res.json()
   };
 
-  const updateHistory = (id) => {
+  // const updateHistory = (id, data) => {
+  //   console.log(data)
+  //   const url = `${endpoint}/${id}`;
+  //   const res = fetch(url, {
+  //     method: "PUT",
+  //     body: JSON.stringify({data}),
+  //     headers: {
+  //       "Content-type": "application/json; charset=UTF-8",
+  //     },
+  //   })
+  //   if (!res.ok) console.log(res, 'wrror')
+  //   // return res.json()
+  // };
+
+
+  const updateHistory = (id, updatedUser) => {
     const url = `${endpoint}/${id}`;
-    const res = fetch(url, {
+
+    // Make a PUT request to update the user data
+    fetch(url, {
       method: "PUT",
-      body: JSON.stringify({
-        id: 1,
-        title: "foo",
-        body: "bar",
-        userId: 1,
-      }),
+      body: JSON.stringify(updatedUser), // Send the updated user object
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-    if (!res.ok) throw new Error('Server error...')
-    return res.json()
+      .then((res) => {
+        if (!res.ok) {
+          console.log("Error updating user:", res);
+          // Handle error here if needed
+        } else {
+          console.log("User updated successfully!");
+          // You can trigger a UI update here if needed
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        // Handle error here if needed
+      });
   };
 
   const deleteHistory = async (id) => {

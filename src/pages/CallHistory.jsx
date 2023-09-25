@@ -20,7 +20,7 @@ const CallDetail = ({
   subscription,
   selected,
 }) => {
-  const { deleteHistory } = useHistory();
+  const { deleteHistory, updateHistory } = useHistory();
 
   const queryClient = useQueryClient();
 
@@ -37,6 +37,71 @@ const CallDetail = ({
     e.preventDefault();
     return mutation.mutate(id);
   };
+
+
+
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedUser, setEditedUser] = useState({
+      id,
+      name,
+      contry,
+      language,
+      occupation,
+      objective,
+      subscription,
+    });
+
+
+ const handleEditClick = () => {
+   setIsEditing(true);
+ };
+
+ const handleSaveClick = () => {
+   // Send a request to update the user object on the server
+   updateHistory(id, editedUser);
+
+   // Exit edit mode
+   setIsEditing(false);
+ };
+
+
+ const handleCancelClick = () => {
+   // Reset the edited user to the current user data
+   setEditedUser({
+     id,
+     name,
+     contry,
+     language,
+     occupation,
+     objective,
+     subscription,
+   });
+
+   // Exit edit mode
+   setIsEditing(false);
+ };
+
+   const handleInputChange = (e) => {
+     const { name, value } = e.target;
+     setEditedUser((prevUser) => ({
+       ...prevUser,
+       [name]: value,
+     }));
+   };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -102,11 +167,32 @@ const CallDetail = ({
             </dialog>
 
             <div>
-              <HiOutlinePencil />
+              <HiOutlinePencil onClick={handleEditClick} />
             </div>
           </div>
         </th>
       </tr>
+
+
+
+      {isEditing && (
+        <tr>
+          <td colSpan="6">
+            <div>
+              <label>Name:</label>
+              <input
+                type="text"
+                name="name"
+                value={editedUser.name}
+                onChange={handleInputChange}
+              />
+            </div>
+            {/* Repeat this pattern for other fields */}
+            <button onClick={handleSaveClick}>Save</button>
+            <button onClick={handleCancelClick}>Cancel</button>
+          </td>
+        </tr>
+      )}
     </>
   );
 };
@@ -127,7 +213,7 @@ const CallHistory = () => {
     queryKey: ["call", url],
     queryFn: () => fetchData(url),
     keepPreviousData: true,
-    networkMode:'always'
+    networkMode:'always' // remove this line before 
   });
 
   return (
