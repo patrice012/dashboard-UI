@@ -44,16 +44,11 @@
       "selected": true
     },
     {
-      "id": 4,
-      "name": "John Elvis",
-      "contry": "United States",
-      "flag": "/src/assets/flag.png",
-      "profil_img": "/src/assets/user.svg",
-      "language": "French",
-      "occupation": "Freelance",
-      "objective": "Fluent",
-      "subscription": "Free Trial",
-      "selected": true
+      "data": {
+        "id": 4,
+        "name": "ekekkkekke"
+      },
+      "id": 4
     },
     {
       "id": 5,
@@ -81,27 +76,19 @@
     },
     {
       "id": 7,
-      "name": "John Elvis",
-      "contry": "United States",
-      "flag": "/src/assets/flag.png",
-      "profil_img": "/src/assets/user.svg",
-      "language": "French",
-      "occupation": "Freelance",
-      "objective": "Fluent",
-      "subscription": "Free Trial",
-      "selected": true
+      "name": "jeejjejjejej"
     },
     {
-      "id": 8,
-      "name": "John Elvis",
-      "contry": "United States",
-      "flag": "/src/assets/flag.png",
-      "profil_img": "/src/assets/user.svg",
-      "language": "French",
-      "occupation": "Freelance",
-      "objective": "Fluent",
-      "subscription": "Free Trial",
-      "selected": false
+      "data": {
+        "id": 8,
+        "name": "John Elviseeee]",
+        "contry": "United States",
+        "language": "French",
+        "occupation": "Freelance",
+        "objective": "Fluent",
+        "subscription": "Free Trial"
+      },
+      "id": 8
     }
   ]
 }
