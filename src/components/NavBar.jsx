@@ -25,7 +25,7 @@ const NavBar = () => {
             { error }
           ) : (
             <p className="btn btn-ghost normal-case text-l">
-              <span className="intro">`Hello, ${user.name}`</span>
+              <span className="intro">Hello, {user.name}</span>
               <img src="/src/assets/hola.png" />
             </p>
           )}

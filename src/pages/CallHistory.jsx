@@ -31,10 +31,11 @@ const CallDetail = ({
     },
   });
 
-  const handleClick = (e) => {
+  const handleRemoveClick = (e) => {
     
     console.log(e, 'id for object')
     e.preventDefault();
+    
     return mutation.mutate(id);
   };
 
@@ -139,21 +140,24 @@ const CallDetail = ({
         <th>
           <div className="row-action">
             <div>
-              <HiOutlineTrash
+              {/* <HiOutlineTrash
                 onClick={() =>
                   document.getElementById("my_modal_2").showModal()
                 }
-              />
+              /> */}
+            <HiOutlineTrash onClick={(e) => {
+                      handleRemoveClick(e);
+            }}/>
             </div>
 
-            <dialog id="my_modal_2" className="modal delete-user">
+            {/* <dialog id="my_modal_2" className="modal delete-user">
               <div className="modal-box">
                 <h3 className="font-bold text-lg">Confirm object deletion.</h3>
                 <form>
                   <input value={id} hidden readOnly />
                   <button
                     onClick={(e) => {
-                      handleClick(e);
+                      handleRemoveClick(e);
                     }}
                   >
                     Confirm
@@ -164,7 +168,7 @@ const CallDetail = ({
               <form method="dialog" className="modal-backdrop">
                 <button id="closeBtn">close</button>
               </form>
-            </dialog>
+            </dialog> */}
 
             <div>
               <HiOutlinePencil onClick={handleEditClick} />
@@ -196,6 +200,17 @@ const CallDetail = ({
     </>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
 
 const CallHistory = () => {
   const [page, setPage] = useState(0);
