@@ -2,23 +2,17 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
 import { useHistory } from "../hooks/history-hooks";
 import { callEndpoint } from "../../server/endpoint";
-
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-
 import fetchData from "../hooks/fetchData";
 import { useState } from "react";
-import UpdateUser from "../components/EditUser";
-
 import { Link } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
 
 
 
 
 const CallDetail = (props) => {
   const id = props.id
-  const navigate = useNavigate();
   const { deleteHistory } = useHistory();
 
   const queryClient = useQueryClient();
@@ -36,18 +30,6 @@ const CallDetail = (props) => {
     return mutation.mutate(id);
   };
 
-
-
-    // const [isEditing, setIsEditing] = useState(false);
-    // const [updateId, setupdateId] = useState(0)
-
-
-
-//      const handleEditClick = (e) => {
-//       console.log(e, 'event')
-// setIsEditing(true)
-// setupdateId(id)
-//    }
 
   return (
     <>
@@ -85,18 +67,7 @@ const CallDetail = (props) => {
         <th>
           <div className="row-action">
             <div>
-              {/* <HiOutlineTrash
-                onClick={() =>
-                  document.getElementById("my_modal_2").showModal()
-                }
-              /> */}
             <HiOutlineTrash onClick={handleRemoveClick}/>
-            </div>
-
-            
-            <div>
-
-               {/* {isEditing && <UpdateUser id={updateId} {...props}/>} */}
           </div>
           <Link to={`update/${id}`} state={{ some: "value" }}><HiOutlinePencil /></Link>
           </div>

@@ -12,6 +12,8 @@ const NavBar = () => {
     const {isError, isLoading, error, data: user} = useQuery({
       queryKey: ["profil"],
       queryFn: () => fetchData(endpoint),
+      networkMode:'always' // remove this line before pushing
+
     });
 
 

@@ -1,104 +1,117 @@
 import { useState } from "react";
-import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery , useMutation, useQueryClient} from "@tanstack/react-query";
 import fetchData from "../hooks/fetchData";
 import { callEndpoint } from "../../server/endpoint";
 import { useParams } from "react-router-dom";
+import { useHistory } from "../hooks/history-hooks";
 
 const UpdateUser = (props) => {
-  
   let { id } = useParams();
+  const {updatedUser} = useHistory();
+  const url = `${callEndpoint}/${id}`;
+  const queryClient = useQueryClient();
 
-    // const id = state.id
-      const [editUser, setEditUser] = useState({});
-    //   if(isSuccess) setdata({data}) 
+  // Fetch user data and store it in a query
+  const { isLoading, isError, isSuccess, data } = useQuery({
+    queryKey: ["user", url],
+    queryFn: () => fetchData(url),
+    networkMode: "always",
+  });
 
+  // Initialize editUser state with fetched data
+  const [editUser, setEditUser] = useState(isSuccess ? data : {});
 
- const handleSaveClick = (e) => {
-    e.preventDefault()
-    console.log(editUser, 'edited data')
-   // Send a request to update the user object on the server
-//    updateHistory(id, data);
- };
+  // Handle form input changes and update editUser state
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
 
+    // Define a mutation to update user data
+    const updateUserMutation = useMutation((objectData) => updatedUser(url, objectData),
+    {
+      onSuccess: () => {
+        // Invalidate the query to trigger a re-fetch and update the UI
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+      },
+    });
 
-//    const handleInputChange = (e) => {
-//     console.log(e, 'taping in')
-//      const { name, value } = e.target;
-//      setEditUser((editUser) => ({
-//        ...editUser,
-//        [name]: value,
-//      }));
-//    };
+      // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Call the mutation to update user data
+      await updateUserMutation.mutateAsync(editUser);
 
+      // Invalidate the user query to refetch data
+      queryClient.invalidateQueries(["user", url]);
 
-
-  // État local pour les données actuelles (anciennes)
-  const [currentUser, setCurrentUser] = useState({});
-
-
-
-     // Utilisez useEffect pour mettre à jour les données actuelles lorsque les props changent
-  // useEffect(() => {
-  //   setCurrentUser({ ...props });
-  //   setEditUser({ ...props });
-  // }, [props]);
-
-
-
-
-const url = `${callEndpoint}/${id}`
-
-
-
-  useEffect(() => {
-    console.log('mount component')
-    // setEditUser(props)
-    fetch(url).then(res => res.json()).then(res => setEditUser(res)).catch(err => console.log(err))
-  }, [url])
-
-
-  console.log(editUser, 'currentuser')
-  // console.log(props, 'props')
+      // Redirect to the user's profile page or another appropriate location
+      // You can use history.push("/user-profile") or similar here
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
+  };
 
     return (
 <>
       <section>
         <div className="max-content">
-        <form  className="add-user--form" name="userForm">
+        <form onSubmit={(e)=> {handleSubmit(e)}}  className="add-user--form" name="userForm">
             <div className="join add-user--fields">
               <input
+              onChange={(e) => handleChange(e)}
                 className="input input-bordered join-item"
                 placeholder="Name"
-                name="username"
+                name="name"
                 required
+                value={editUser.name || ''}
               />
   
               <input
+              onChange={(e) => handleChange(e)}
+
                 className="input input-bordered join-item"
                 placeholder="Language"
                 name="language"
                 required
+                value={editUser.language || ""}
+
               />
               <input
+              onChange={(e) => handleChange(e)}
+
                 className="input input-bordered join-item"
                 placeholder="Occupation"
                 name="occupation"
                 required
+                value={editUser.occupation || ""}
+
 
               />
               <input
+              onChange={(e) => handleChange(e)}
+
                 className="input input-bordered join-item"
                 placeholder="Objective"
                 name="objective"
                 required
+                value={editUser.objective || ""}
+
 
               />
               <input
+              onChange={(e) => handleChange(e)}
+
                 className="input input-bordered join-item"
                 placeholder="Subscription"
                 name="subscription"
                 required
+                value={editUser.subscription || ""}
+
 
               /> 
               <select name="state" className="select select-bordered">
@@ -111,6 +124,7 @@ const url = `${callEndpoint}/${id}`
               </label>
             </div>
             <button className="btn">Create</button>
+            <button className="btn">Cancel</button>
           </form>
         </div>
       </section>

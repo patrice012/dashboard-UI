@@ -5,11 +5,9 @@ import ContentAction from "./Action";
 import { CallHistoryProvider } from "../contexts/call-history-hook";
 import {Route , Routes} from 'react-router-dom';
 import UpdateUser from "../components/EditUser";
-import React from 'react';
 
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-// import AddUser from "./CreateUser";
 
 const Content = () => {
   return (
