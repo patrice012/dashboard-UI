@@ -7,20 +7,19 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 import fetchData from "../hooks/fetchData";
 import { useState } from "react";
+import UpdateUser from "../components/EditUser";
 
-const CallDetail = ({
-  id,
-  name,
-  contry,
-  flag,
-  profil_img,
-  language,
-  occupation,
-  objective,
-  subscription,
-  selected,
-}) => {
-  const { deleteHistory, updateHistory } = useHistory();
+import { Link } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+
+
+
+
+const CallDetail = (props) => {
+  const id = props.id
+  const navigate = useNavigate();
+  const { deleteHistory } = useHistory();
 
   const queryClient = useQueryClient();
 
@@ -31,78 +30,24 @@ const CallDetail = ({
     },
   });
 
-  const handleRemoveClick = (e) => {
+  const handleRemoveClick = () => {
     
-    console.log(e, 'id for object')
-    e.preventDefault();
-    
+    // e.preventDefault();
     return mutation.mutate(id);
   };
 
 
 
-
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedUser, setEditedUser] = useState({
-      id,
-      name,
-      contry,
-      language,
-      occupation,
-      objective,
-      subscription,
-    });
-
-
- const handleEditClick = () => {
-   setIsEditing(true);
- };
-
- const handleSaveClick = () => {
-   // Send a request to update the user object on the server
-   updateHistory(id, editedUser);
-
-   // Exit edit mode
-   setIsEditing(false);
- };
-
-
- const handleCancelClick = () => {
-   // Reset the edited user to the current user data
-   setEditedUser({
-     id,
-     name,
-     contry,
-     language,
-     occupation,
-     objective,
-     subscription,
-   });
-
-   // Exit edit mode
-   setIsEditing(false);
- };
-
-   const handleInputChange = (e) => {
-     const { name, value } = e.target;
-     setEditedUser((prevUser) => ({
-       ...prevUser,
-       [name]: value,
-     }));
-   };
+    // const [isEditing, setIsEditing] = useState(false);
+    // const [updateId, setupdateId] = useState(0)
 
 
 
-
-
-
-
-
-
-
-
-
-
+//      const handleEditClick = (e) => {
+//       console.log(e, 'event')
+// setIsEditing(true)
+// setupdateId(id)
+//    }
 
   return (
     <>
@@ -119,24 +64,24 @@ const CallDetail = ({
             </label>
             <div className="avatar">
               <div className="mask mask-squircle w-12 h-12">
-                <img src={profil_img} alt="profile picture" />
+                <img src={props.profil_img} alt="profile picture" />
               </div>
             </div>
             <div>
               <div className="user">
-                <span className="user--name">{name}</span>
+                <span className="user--name">{props.name}</span>
                 <span>
-                  <img src={flag} />
+                  <img src={props.flag} />
                 </span>
               </div>
-              <div className="user--email">{contry}</div>
+              <div className="user--email">{props.contry}</div>
             </div>
           </div>
         </td>
-        <td>{language}</td>
-        <td>{occupation}</td>
-        <th>{objective}</th>
-        <th>{subscription}</th>
+        <td>{props.language}</td>
+        <td>{props.occupation}</td>
+        <th>{props.objective}</th>
+        <th>{props.subscription}</th>
         <th>
           <div className="row-action">
             <div>
@@ -145,58 +90,20 @@ const CallDetail = ({
                   document.getElementById("my_modal_2").showModal()
                 }
               /> */}
-            <HiOutlineTrash onClick={(e) => {
-                      handleRemoveClick(e);
-            }}/>
+            <HiOutlineTrash onClick={handleRemoveClick}/>
             </div>
 
-            {/* <dialog id="my_modal_2" className="modal delete-user">
-              <div className="modal-box">
-                <h3 className="font-bold text-lg">Confirm object deletion.</h3>
-                <form>
-                  <input value={id} hidden readOnly />
-                  <button
-                    onClick={(e) => {
-                      handleRemoveClick(e);
-                    }}
-                  >
-                    Confirm
-                  </button>
-                </form>
-                <p className="py-4">Press ESC key or click outside to close</p>
-              </div>
-              <form method="dialog" className="modal-backdrop">
-                <button id="closeBtn">close</button>
-              </form>
-            </dialog> */}
-
+            
             <div>
-              <HiOutlinePencil onClick={handleEditClick} />
-            </div>
+
+               {/* {isEditing && <UpdateUser id={updateId} {...props}/>} */}
+          </div>
+          <Link to={`update/${id}`} state={{ some: "value" }}><HiOutlinePencil /></Link>
           </div>
         </th>
       </tr>
+      
 
-
-
-      {isEditing && (
-        <tr>
-          <td colSpan="6">
-            <div>
-              <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={editedUser.name}
-                onChange={handleInputChange}
-              />
-            </div>
-            {/* Repeat this pattern for other fields */}
-            <button onClick={handleSaveClick}>Save</button>
-            <button onClick={handleCancelClick}>Cancel</button>
-          </td>
-        </tr>
-      )}
     </>
   );
 };

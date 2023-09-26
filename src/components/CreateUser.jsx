@@ -1,9 +1,8 @@
 const CreateUser = (props) => {
-    console.log(props, 'props')
     return (
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">
-          <h3 className="font-bold text-lg">Create User</h3>
+          <h3 className="font-bold text-lg">Create</h3>
   
           <form onSubmit={props.handleSubmit} className="add-user--form" name="userForm">
             <div className="join add-user--fields">
@@ -12,7 +11,6 @@ const CreateUser = (props) => {
                 placeholder="Name"
                 name="username"
                 required
-                value = {props.name}
               />
   
               <input
@@ -26,19 +24,22 @@ const CreateUser = (props) => {
                 placeholder="Occupation"
                 name="occupation"
                 required
+
               />
               <input
                 className="input input-bordered join-item"
                 placeholder="Objective"
                 name="objective"
                 required
+
               />
               <input
                 className="input input-bordered join-item"
                 placeholder="Subscription"
                 name="subscription"
                 required
-              />
+
+              /> 
               <select name="state" className="select select-bordered">
                 <option>United State</option>
                 <option>France</option>
@@ -48,7 +49,7 @@ const CreateUser = (props) => {
                 <span className="label-text-alt">Select State</span>
               </label>
             </div>
-            <button className="btn">Create User</button>
+            <button className="btn">Create</button>
           </form>
           <div className="modal-action">
             <form method="dialog">
@@ -59,5 +60,11 @@ const CreateUser = (props) => {
       </dialog>
     );
   }
+
+
+
+
+
+ 
 
   export default CreateUser;

@@ -3,26 +3,26 @@ import OutComes from "./OutComes";
 import CallHistory from "./CallHistory";
 import ContentAction from "./Action";
 import { CallHistoryProvider } from "../contexts/call-history-hook";
+import {Route , Routes} from 'react-router-dom';
+import UpdateUser from "../components/EditUser";
+import React from 'react';
+
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 // import AddUser from "./CreateUser";
 
 const Content = () => {
-  const queryClient = new QueryClient();
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <NavBar />
-        <OutComes />
-        <ContentAction />
-        {/* <AddUser/> */}
-        <CallHistory />
-      </QueryClientProvider>
+  <OutComes/>
+  <ContentAction/>
+  <CallHistory/>
     </>
   );
 };
 
 const Dashboard = () => {
+  const queryClient = new QueryClient();
   return (
     <main>
       <div className="drawer lg:drawer-open dashboard">
@@ -35,9 +35,18 @@ const Dashboard = () => {
           >
             Open pannel
           </label>
+          
+          <QueryClientProvider client={queryClient}>
           <CallHistoryProvider>
-            <Content />
-          </CallHistoryProvider>
+            <NavBar />
+              <Routes>
+                <Route exact path="/" element={<Content />} />
+                <Route path="/update/:id" element={<UpdateUser/>}/>
+              </Routes>
+            </CallHistoryProvider>
+          </QueryClientProvider>
+         
+          
         </div>
         <div className="drawer-side sideBar">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>

@@ -36,8 +36,6 @@ const ContentAction = () => {
       subscription: formData.get("subscription"),
     };
 
-    console.log(data)
-
     // createUser(callEndpoint, data);
     // Initiate object creation mutation
     mutation.mutate(data);
@@ -61,13 +59,13 @@ const ContentAction = () => {
             <img src="/src/assets/plus.svg" />
             <span>Add User</span>
           </button>
-          <CreateUser handleSubmit={handleCreate}/>
+          <CreateUser modalId={1} handleSubmit={handleCreate}/>
 
           <span>1 row selected</span>
         </div>
         <div className="form-control action--search">
           {/* <input type="text" placeholder="Search" className="input" /> */}
-          <form onSubmit={(e) => handleSumit(e)}>
+          <form>
             <input
               // onChange={handleChange}
               type="text"
