@@ -1,33 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 
 
-const UserContext = createContext({})
-
-const UserProvider = ({children}) => {
-  const [user, setUser]  = useState({
-    "name": undefined,
-    "country": "United States",
-    "flag": "/src/assets/flag.png",
-    "profil_img": undefined,
-    "language": undefined,
-    "occupation": undefined,
-    "objective": undefined,
-    "subscription": undefined,
-  })
-
-  const manageUser = (data) => {
-    setUser(data)
-
-  }
-
-  return (
-    <UserContext.Provider value={{user, manageUser}}>
-      {children}
-    </UserContext.Provider>
-  )
-
-}
+const UserContext = createContext({
+  "name": undefined,
+  "country": "United States",
+  "flag": "/src/assets/flag.png",
+  "profil_img": undefined,
+  "language": undefined,
+  "occupation": undefined,
+  "objective": undefined,
+  "subscription": undefined,
+})
 
 
-
-export default UserProvider;
+export default UserContext;

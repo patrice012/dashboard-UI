@@ -1,7 +1,7 @@
 // import './App.css'
 import './styles/index.css';
 import Dashboard from "./pages/Dashboard";
-import UserProvider from './contexts/userContext';
+import UserProvider from './providers/userProvider';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -9,13 +9,13 @@ function App() {
   const queryClient = new QueryClient();
 
   return (
-    <UserProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-        <Dashboard />
+          <UserProvider>
+            <Dashboard />
+          </UserProvider>
         </BrowserRouter>
       </QueryClientProvider>
-    </UserProvider>
   );
 }
 

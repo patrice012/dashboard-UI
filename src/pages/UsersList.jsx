@@ -4,7 +4,23 @@ import { callEndpoint } from "../../server/endpoint";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchData from "../utils/fetchData";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import UpdateUser from "../components/UpdateUser";
+// import { Link } from "react-router-dom";
+
+
+const ConfirmAction = () => {
+  return (
+    <dialog id="ConfirmDeletion" className="modal">
+        <div className="modal-box">
+          <button id="confirmBtn">Confirm action</button>
+          <p className="py-4">Press ESC key or click outside to close</p>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+  )
+}
 
 
 
@@ -24,7 +40,10 @@ const UserDetail = (props) => {
     return response
   }
 
+  // const [isRemoving, setIsRemoving] = useState(false)
   const handleRemoveClick = () => {
+    // toggle modal
+    // setIsRemoving(true)
     // ask for confirmation
     const deletionModale = document.getElementById('ConfirmDeletion')
     deletionModale.showModal()
@@ -67,6 +86,15 @@ const UserDetail = (props) => {
     })
   };
 
+  // update user
+  const [isEditing, setIsEditing] = useState(false)
+  const handleUpdateClick = () => {
+    setIsEditing(true)
+    const updateComponent = document.getElementById('updateModal')
+    if (updateComponent) updateComponent.showModal()
+    else console.log('not found')
+  }
+
 
   return (
     <>
@@ -106,20 +134,16 @@ const UserDetail = (props) => {
             <div>
             <HiOutlineTrash onClick={handleRemoveClick}/>
           </div>
-          <Link to={`update/${id}`} state={{ some: "value" }}><HiOutlinePencil /></Link>
+          <div>
+            <HiOutlinePencil onClick={handleUpdateClick}/>
+          </div>
+          {/* <Link to={`update/${id}`} state={{ some: "value" }}><HiOutlinePencil /></Link> */}
           </div>
         </th>
       </tr>
 
-      <dialog id="ConfirmDeletion" className="modal">
-        <div className="modal-box">
-          <button id="confirmBtn">Confirm action</button>
-          <p className="py-4">Press ESC key or click outside to close</p>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+      <ConfirmAction/>
+      <UpdateUser id={id} setIsEditing={setIsEditing}/>
     </>
   );
 };
