@@ -1,6 +1,6 @@
 const CreateUser = (props) => {
     return (
-      <dialog id="my_modal_1" className="modal">
+      <dialog id="creationModal" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">
           <h3 className="font-bold text-lg">Create</h3>
   

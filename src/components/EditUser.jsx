@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useQuery , useMutation, useQueryClient} from "@tanstack/react-query";
-import fetchData from "../hooks/fetchData";
+import fetchData from "../utils/fetchData";
 import { callEndpoint } from "../../server/endpoint";
 import { useParams } from "react-router-dom";
-import { useHistory } from "../hooks/history-hooks";
 
 const UpdateUser = (props) => {
   let { id } = useParams();
-  const {updatedUser} = useHistory();
   const url = `${callEndpoint}/${id}`;
   const queryClient = useQueryClient();
 
@@ -31,13 +29,13 @@ const UpdateUser = (props) => {
   };
 
     // Define a mutation to update user data
-    const updateUserMutation = useMutation((objectData) => updatedUser(url, objectData),
-    {
-      onSuccess: () => {
-        // Invalidate the query to trigger a re-fetch and update the UI
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-      },
-    });
+    // const updateUserMutation = useMutation((objectData) => updatedUser(url, objectData),
+    // {
+    //   onSuccess: () => {
+    //     // Invalidate the query to trigger a re-fetch and update the UI
+    //     queryClient.invalidateQueries({ queryKey: ["user"] });
+    //   },
+    // });
 
       // Handle form submission
   const handleSubmit = async (e) => {

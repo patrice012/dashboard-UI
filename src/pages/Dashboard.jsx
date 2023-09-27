@@ -1,26 +1,26 @@
-import NavBar from "../components/NavBar";
-import OutComes from "./OutComes";
-import CallHistory from "./CallHistory";
-import ContentAction from "./Action";
-import { CallHistoryProvider } from "../contexts/call-history-hook";
 import {Route , Routes} from 'react-router-dom';
-import UpdateUser from "../components/EditUser";
+import NavBar from '../components/NavBar';
+import OutComes from '../pages/OutComes'
+import ContentAction from '../pages/Action';
+import UserList from './UsersList';
+import UpdateUser from '../components/EditUser';
 
 
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+
 
 const Content = () => {
   return (
     <>
   <OutComes/>
   <ContentAction/>
-  <CallHistory/>
+  <UserList/>
     </>
   );
 };
 
 const Dashboard = () => {
-  const queryClient = new QueryClient();
+  
   return (
     <main>
       <div className="drawer lg:drawer-open dashboard">
@@ -33,17 +33,14 @@ const Dashboard = () => {
           >
             Open pannel
           </label>
-          
-          <QueryClientProvider client={queryClient}>
-          <CallHistoryProvider>
+          <>
             <NavBar />
               <Routes>
                 <Route exact path="/" element={<Content />} />
                 <Route path="/update/:id" element={<UpdateUser/>}/>
               </Routes>
-            </CallHistoryProvider>
-          </QueryClientProvider>
-         
+              </>
+
           
         </div>
         <div className="drawer-side sideBar">

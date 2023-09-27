@@ -187,7 +187,7 @@
 
 // table
 
-table.callHistory {
+table.UserList {
   border-radius: var(--radius) !important;
 
   & thead > tr > th:first-child {
@@ -196,7 +196,7 @@ table.callHistory {
   }
 }
 
-.callHistory thead {
+.UserList thead {
   border: 1px solid var(--white-border);
   background: var(--panel-header-bg);
 
@@ -221,7 +221,7 @@ table.callHistory {
   }
 }
 
-.callHistory tbody tr {
+.UserList tbody tr {
   border: 1px solid var(--white-border);
   background: var(--white-color);
 }
@@ -266,7 +266,7 @@ table.callHistory {
   }
 }
 
-.callHistory tfoot {
+.UserList tfoot {
   border: 1px solid var(--white-border);
   background: var(--white-color);
 
@@ -404,7 +404,7 @@ table.callHistory {
   }
 }
 
-#my_modal_1, #my_modal_2 {
+#creationModal, #my_modal_2 {
   .modal {
     &-box {
       display: flex;

@@ -330,10 +330,10 @@ input[type=checkbox]:checked::before {
   font-size: 1.1rem;
 }
 
-table.callHistory {
+table.UserList {
   border-radius: var(--radius) !important;
 }
-table.callHistory thead > tr > th:first-child {
+table.UserList thead > tr > th:first-child {
   -moz-column-gap: 2rem;
        column-gap: 2rem;
   display: flex;
@@ -344,22 +344,22 @@ table.callHistory thead > tr > th:first-child {
   max-width: 100%;
 }
 
-.callHistory thead {
+.UserList thead {
   border: 1px solid var(--white-border);
   background: var(--panel-header-bg);
 }
-.callHistory thead th.inline-flex {
+.UserList thead th.inline-flex {
   -moz-column-gap: 1.8rem;
        column-gap: 1.8rem;
 }
-.callHistory thead th > label {
+.UserList thead th > label {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   -moz-column-gap: 0.8rem;
        column-gap: 0.8rem;
 }
-.callHistory thead th > label span {
+.UserList thead th > label span {
   color: var(--second-text-color);
   font-size: 0.75rem;
   font-style: normal;
@@ -367,7 +367,7 @@ table.callHistory thead > tr > th:first-child {
   line-height: 175%;
 }
 
-.callHistory tbody tr {
+.UserList tbody tr {
   border: 1px solid var(--white-border);
   background: var(--white-color);
 }
@@ -413,21 +413,21 @@ table.callHistory thead > tr > th:first-child {
   line-height: 175%;
 }
 
-.callHistory tfoot {
+.UserList tfoot {
   border: 1px solid var(--white-border);
   background: var(--white-color);
 }
-.callHistory tfoot button {
+.UserList tfoot button {
   padding: 0.6rem;
 }
-.callHistory tfoot button:hover, .callHistory tfoot button:focus {
+.UserList tfoot button:hover, .UserList tfoot button:focus {
   background-color: var(--white-border);
   transition: background-color 0.3s ease-in;
 }
-.callHistory tfoot button.next--btn {
+.UserList tfoot button.next--btn {
   transform: translateX(0.5rem);
 }
-.callHistory tfoot .footer--btn {
+.UserList tfoot .footer--btn {
   border: 1px solid var(--icon-gray-light);
   color: var(--pagination-color);
 }
@@ -537,7 +537,7 @@ table.callHistory thead > tr > th:first-child {
   font-size: 0.8rem;
 }
 
-#my_modal_1 .modal-box, #my_modal_2 .modal-box {
+#creationModal .modal-box, #my_modal_2 .modal-box {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -545,11 +545,11 @@ table.callHistory thead > tr > th:first-child {
   max-height: 100% !important;
   position: relative;
 }
-#my_modal_1 .modal-box h3, #my_modal_2 .modal-box h3 {
+#creationModal .modal-box h3, #my_modal_2 .modal-box h3 {
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
-#my_modal_1 .modal-action, #my_modal_2 .modal-action {
+#creationModal .modal-action, #my_modal_2 .modal-action {
   position: absolute;
   top: -1%;
   right: 2%;

@@ -1,8 +1,7 @@
 import { userEndpoint } from "../../server/endpoint";
 import { useQuery } from "@tanstack/react-query";
 
-import fetchData from "../hooks/fetchData";
-
+import fetchData from "../utils/fetchData";
 
 const NavBar = () => {
 

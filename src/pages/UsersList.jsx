@@ -1,33 +1,70 @@
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
-import { useHistory } from "../hooks/history-hooks";
 import { callEndpoint } from "../../server/endpoint";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import fetchData from "../hooks/fetchData";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import fetchData from "../utils/fetchData";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 
 
-
-
-const CallDetail = (props) => {
+const UserDetail = (props) => {
   const id = props.id
-  const { deleteHistory } = useHistory();
-
+  const url = `${callEndpoint}/${id}`
   const queryClient = useQueryClient();
 
-  const mutation = useMutation((id) => deleteHistory(id), {
-    onSuccess: () => {
-      // Invalidate the query to trigger a re-fetch and update the UI
-      queryClient.invalidateQueries({ queryKey: ["call"] });
-    },
-  });
+  async function deleteUser(url) {
+    const response = await fetch(url, {
+      method: 'DELETE'
+    });
+    if (response.ok) {
+      // update the list of user to match the current DB state
+      queryClient.invalidateQueries(["call"]);
+    }
+    return response
+  }
 
   const handleRemoveClick = () => {
-    
-    // e.preventDefault();
-    return mutation.mutate(id);
+    // ask for confirmation
+    const deletionModale = document.getElementById('ConfirmDeletion')
+    deletionModale.showModal()
+    // confirm deletion
+    const confirmation = new Promise((resolve,reject) => {
+      deletionModale.addEventListener('click', (e) => {
+        if (e.target.id === 'confirmBtn') resolve('Confirm')
+        else reject('Cancel')
+
+      })
+    })
+    // check user response
+    confirmation
+    .then(
+      (respnse => {
+          if (respnse === 'Confirm') {
+            // delete user
+            deleteUser(url)
+            .then((response) => {
+              if (response.ok) {
+                // The user was successfully deleted, send UI alert to user
+                console.log('delete success')
+              } else {
+                // Handle errors if the deletion was not successful
+                console.error("Failed to delete user:", response.statusText);
+              }
+            })
+            .catch((error) => {
+              // Handle fetch errors here
+              console.error("Failed to delete user:", error);
+            })
+          }
+        }
+      )
+    )
+    .catch((error) => console.log(error))
+    .finally(() => {
+      // hide modal confirmation
+      document.getElementById('ConfirmDeletion').close()
+    })
   };
 
 
@@ -73,26 +110,24 @@ const CallDetail = (props) => {
           </div>
         </th>
       </tr>
-      
 
+      <dialog id="ConfirmDeletion" className="modal">
+        <div className="modal-box">
+          <button id="confirmBtn">Confirm action</button>
+          <p className="py-4">Press ESC key or click outside to close</p>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </>
   );
 };
 
 
 
-
-
-
-
-
-
-
-
-
-const CallHistory = () => {
+const UserList = () => {
   const [page, setPage] = useState(0);
-  // Queries
   const url = `${callEndpoint}`;
   // const url = `${callEndpoint}?page=${page}`;
   const {
@@ -117,7 +152,7 @@ const CallHistory = () => {
         ) : isError ? (
           <p>{error}</p>
         ) : (
-          <table className="table callHistory">
+          <table className="table UserList">
             <thead className="">
               <tr>
                 <th>
@@ -158,8 +193,8 @@ const CallHistory = () => {
             </thead>
             <tbody>
               {isSuccess &&
-                data.map((history) => {
-                  return <CallDetail key={history.id} {...history} />;
+                data.map((user) => {
+                  return <UserDetail key={user.id} {...user} />;
                 })}
             </tbody>
             <tfoot>
@@ -205,4 +240,4 @@ const CallHistory = () => {
   );
 };
 
-export default CallHistory;
+export default UserList;
