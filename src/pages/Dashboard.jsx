@@ -4,6 +4,11 @@ import OutComes from '../pages/OutComes'
 import ContentAction from '../pages/Action';
 import UserList from './UsersList';
 import UpdateUser from '../components/EditUser';
+import UIFeedback from '../components/Toast';
+import { useContext } from 'react';
+// import { UIFeedBackProvider } from '../contexts/toastContext';
+import { UIFeedBackContext } from '../contexts/toastContext';
+
 
 
 
@@ -20,6 +25,7 @@ const Content = () => {
 };
 
 const Dashboard = () => {
+  const {feedBack} = useContext(UIFeedBackContext)
   
   return (
     <main>
@@ -34,12 +40,13 @@ const Dashboard = () => {
             Open pannel
           </label>
           <>
+            {feedBack.state && <UIFeedback {...feedBack}/>}
             <NavBar />
-              <Routes>
-                <Route exact path="/" element={<Content />} />
-                <Route path="/update/:id" element={<UpdateUser/>}/>
-              </Routes>
-              </>
+            <Routes>
+              <Route exact path="/" element={<Content />} />
+              <Route path="/update/:id" element={<UpdateUser/>}/>
+            </Routes>
+          </>
 
           
         </div>

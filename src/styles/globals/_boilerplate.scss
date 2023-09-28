@@ -81,3 +81,22 @@ input[type="checkbox"]:checked::before {
   width: 100%;
   padding: 1rem 0rem;
 }
+
+// toast
+
+.toast {
+  z-index: 88 !important;
+}
+
+//  toast color
+
+.alert-blue {
+  background-color: var(--btn-color) !important;
+  color: var(--white-color) !important;
+  text-transform: capitalize;
+  font-weight: 500;
+  &:hover {
+    opacity: 75%;
+    transition: all .3s ease-in;
+  }
+}

@@ -161,6 +161,21 @@ input[type=checkbox]:checked::before {
   padding: 1rem 0rem;
 }
 
+.toast {
+  z-index: 88 !important;
+}
+
+.alert-blue {
+  background-color: var(--btn-color) !important;
+  color: var(--white-color) !important;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.alert-blue:hover {
+  opacity: 75%;
+  transition: all 0.3s ease-in;
+}
+
 .bg-main {
   background-color: var(--panel-bg);
 }

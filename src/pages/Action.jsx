@@ -1,7 +1,8 @@
 import { callEndpoint } from "../../server/endpoint";
 import { useQueryClient } from "@tanstack/react-query";
 import CreateUser from "../components/CreateUser";
-
+import { useContext } from 'react';
+import { UIFeedBackContext } from '../contexts/toastContext';
 
 
 const ContentAction = () => {
@@ -29,6 +30,7 @@ const ContentAction = () => {
   }
 
   // create user data
+  const {showFeedBack} = useContext(UIFeedBackContext)
   const handleCreate = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -47,15 +49,15 @@ const ContentAction = () => {
     response.then((response) => {
       if (response.ok) {
         // The user was successfully added, send UI alert to user
-        console.log('delete success')
+        showFeedBack(`${data.name} was created successfully`)
       } else {
         // Handle errors if the deletion was not successful
-        console.error("Failed to create user:", response.statusText);
+        showFeedBack(`Failed to create user: ${response.statusText} `)
       }
     })
     .catch((error) => {
       // Handle fetch errors here
-      console.error("Failed to create user:", error);
+      showFeedBack(`Failed to create user: ${error} `)
     });
     // reset form fields
     e.target.reset();

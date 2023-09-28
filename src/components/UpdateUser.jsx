@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import fetchData from "../utils/fetchData";
 import { callEndpoint } from "../../server/endpoint";
 import { useQuery } from "@tanstack/react-query";
-import UserContext from "../contexts/userContext";
+import {UserContext} from "../contexts/userContext";
 
 const UpdateUser = (props) => {
     const url = `${callEndpoint}/${props.id}`

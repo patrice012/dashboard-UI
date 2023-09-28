@@ -3,8 +3,9 @@ import { HiOutlinePencil } from "react-icons/hi2";
 import { callEndpoint } from "../../server/endpoint";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchData from "../utils/fetchData";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import UpdateUser from "../components/UpdateUser";
+import {UIFeedBackContext} from '../contexts/toastContext';
 // import { Link } from "react-router-dom";
 
 
@@ -28,6 +29,7 @@ const UserDetail = (props) => {
   const id = props.id
   const url = `${callEndpoint}/${id}`
   const queryClient = useQueryClient();
+  const {showFeedBack} = useContext(UIFeedBackContext);
 
   async function deleteUser(url) {
     const response = await fetch(url, {
@@ -40,19 +42,19 @@ const UserDetail = (props) => {
     return response
   }
 
-  // const [isRemoving, setIsRemoving] = useState(false)
   const handleRemoveClick = () => {
     // toggle modal
-    // setIsRemoving(true)
     // ask for confirmation
     const deletionModale = document.getElementById('ConfirmDeletion')
     deletionModale.showModal()
     // confirm deletion
     const confirmation = new Promise((resolve,reject) => {
       deletionModale.addEventListener('click', (e) => {
-        if (e.target.id === 'confirmBtn') resolve('Confirm')
-        else reject('Cancel')
-
+        // close modal only if the user clicked the explicite boutton
+        if (e.target.id === 'confirmBtn') {
+          if (e.originalTarget.id === 'confirmBtn') resolve('Confirm')
+          else reject('Cancel')
+        }
       })
     })
     // check user response
@@ -65,21 +67,21 @@ const UserDetail = (props) => {
             .then((response) => {
               if (response.ok) {
                 // The user was successfully deleted, send UI alert to user
-                console.log('delete success')
+                showFeedBack(`${props.name} was delete success`)
               } else {
                 // Handle errors if the deletion was not successful
-                console.error("Failed to delete user:", response.statusText);
+                showFeedBack(`Failed to create user: ${response.statusText} `)
               }
             })
             .catch((error) => {
               // Handle fetch errors here
-              console.error("Failed to delete user:", error);
+                showFeedBack(`Failed to create user: ${error} `)
             })
           }
         }
       )
     )
-    .catch((error) => console.log(error))
+    .catch((error) => showFeedBack(`Failed to create user: ${error} `))
     .finally(() => {
       // hide modal confirmation
       document.getElementById('ConfirmDeletion').close()

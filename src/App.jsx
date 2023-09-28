@@ -1,9 +1,11 @@
 // import './App.css'
 import './styles/index.css';
 import Dashboard from "./pages/Dashboard";
-import UserProvider from './providers/userProvider';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
+import { UserProvider } from './contexts/userContext';
+import { UIFeedBackProvider } from './contexts/toastContext';
+
 
 function App() {
   const queryClient = new QueryClient();
@@ -12,7 +14,9 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <UserProvider>
-            <Dashboard />
+            <UIFeedBackProvider>
+              <Dashboard />
+            </UIFeedBackProvider>
           </UserProvider>
         </BrowserRouter>
       </QueryClientProvider>
