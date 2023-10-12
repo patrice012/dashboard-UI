@@ -8,48 +8,15 @@
   ],
   "calls": [
     {
-      "name": "fb",
-      "contry": "United State",
+      "name": "google",
+      "country": "United State",
       "flag": null,
       "profil_img": "/src/assets/user.svg",
-      "language": "b",
-      "occupation": "b",
-      "objective": "gb",
+      "language": "wwr",
+      "occupation": "bever",
+      "objective": "we",
       "subscription": "b",
-      "id": 1
-    },
-    {
-      "name": "b",
-      "contry": "United State",
-      "flag": null,
-      "profil_img": "/src/assets/user.svg",
-      "language": "b",
-      "occupation": "t",
-      "objective": "tg",
-      "subscription": "et",
       "id": 2
-    },
-    {
-      "name": "rfkkrgege",
-      "contry": "United State",
-      "flag": null,
-      "profil_img": "/src/assets/user.svg",
-      "language": "g",
-      "occupation": "e",
-      "objective": "g",
-      "subscription": "e",
-      "id": 5
-    },
-    {
-      "name": "regegege",
-      "contry": "United State",
-      "flag": null,
-      "profil_img": "/src/assets/user.svg",
-      "language": "ge",
-      "occupation": "geg",
-      "objective": "eg",
-      "subscription": "e",
-      "id": 6
     }
   ]
 }

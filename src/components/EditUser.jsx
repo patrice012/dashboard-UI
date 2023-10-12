@@ -1,133 +1,168 @@
-import { useState } from "react";
-import { useQuery , useMutation, useQueryClient} from "@tanstack/react-query";
+import { useEffect, useState, useContext } from "react";
 import fetchData from "../utils/fetchData";
 import { callEndpoint } from "../../server/endpoint";
-import { useParams } from "react-router-dom";
+import putRequest from "../utils/update";
+import { UIFeedBackContext } from "../contexts/toastContext";
+import { useQueryClient } from "@tanstack/react-query";
 
-const UpdateUser = (props) => {
-  let { id } = useParams();
-  const url = `${callEndpoint}/${id}`;
-  const queryClient = useQueryClient();
+const UpdateUser = ({ id, showModal, setIsUpdating }) => {
+    const url = `${callEndpoint}/${id}`;
+    const queryClient = useQueryClient();
 
-  // Fetch user data and store it in a query
-  const { isLoading, isError, isSuccess, data } = useQuery({
-    queryKey: ["user", url],
-    queryFn: () => fetchData(url),
-    networkMode: "always",
-  });
+    const [updateData, setUpdateData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const { showFeedBack } = useContext(UIFeedBackContext);
 
-  // Initialize editUser state with fetched data
-  const [editUser, setEditUser] = useState(isSuccess ? data : {});
+    useEffect(() => {
+        const response = fetchData(url);
+        response.then((data) => {
+            setUpdateData({ ...data });
+            setIsLoading(false);
+        });
+    }, [url]);
 
-  // Handle form input changes and update editUser state
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-  };
-
-    // Define a mutation to update user data
-    // const updateUserMutation = useMutation((objectData) => updatedUser(url, objectData),
-    // {
-    //   onSuccess: () => {
-    //     // Invalidate the query to trigger a re-fetch and update the UI
-    //     queryClient.invalidateQueries({ queryKey: ["user"] });
-    //   },
-    // });
-
-      // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Call the mutation to update user data
-      await updateUserMutation.mutateAsync(editUser);
-
-      // Invalidate the user query to refetch data
-      queryClient.invalidateQueries(["user", url]);
-
-      // Redirect to the user's profile page or another appropriate location
-      // You can use history.push("/user-profile") or similar here
-    } catch (error) {
-      console.error("Failed to update user:", error);
-    }
-  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const response = putRequest(url, updateData);
+        response.then((data) => showFeedBack(`${data.name} was updated`));
+        setIsUpdating({
+            state: false,
+          id: null,
+            isUpdated:true
+        });
+        queryClient.invalidateQueries(["call"]);
+    };
 
     return (
-<>
-      <section>
-        <div className="max-content">
-        <form onSubmit={(e)=> {handleSubmit(e)}}  className="add-user--form" name="userForm">
-            <div className="join add-user--fields">
-              <input
-              onChange={(e) => handleChange(e)}
-                className="input input-bordered join-item"
-                placeholder="Name"
-                name="name"
-                required
-                value={editUser.name || ''}
-              />
-  
-              <input
-              onChange={(e) => handleChange(e)}
+        <>
+            <input
+                checked={showModal}
+                readOnly={true}
+                type="checkbox"
+                id="my_modal_6"
+                className="modal-toggle"
+            />
+            <div className="modal" id="creationModal">
+                <div className="modal-box">
+                    {isLoading ? (
+                        <p>Loading data. Please wait...</p>
+                    ) : (
+                        <>
+                            <form
+                                onSubmit={(e) => handleSubmit(e)}
+                                className="add-user--form"
+                                name="userForm"
+                            >
+                                <div className="join add-user--fields">
+                                    <input
+                                        className="input input-bordered join-item"
+                                        placeholder="Name"
+                                        name="username"
+                                        required
+                                        value={updateData.name || ""}
+                                        onChange={(e) =>
+                                            setUpdateData({
+                                                ...updateData,
+                                                name: e.target.value,
+                                            })
+                                        }
+                                    />
 
-                className="input input-bordered join-item"
-                placeholder="Language"
-                name="language"
-                required
-                value={editUser.language || ""}
-
-              />
-              <input
-              onChange={(e) => handleChange(e)}
-
-                className="input input-bordered join-item"
-                placeholder="Occupation"
-                name="occupation"
-                required
-                value={editUser.occupation || ""}
-
-
-              />
-              <input
-              onChange={(e) => handleChange(e)}
-
-                className="input input-bordered join-item"
-                placeholder="Objective"
-                name="objective"
-                required
-                value={editUser.objective || ""}
-
-
-              />
-              <input
-              onChange={(e) => handleChange(e)}
-
-                className="input input-bordered join-item"
-                placeholder="Subscription"
-                name="subscription"
-                required
-                value={editUser.subscription || ""}
-
-
-              /> 
-              <select name="state" className="select select-bordered">
-                <option>United State</option>
-                <option>France</option>
-                <option>Germany</option>
-              </select>
-              <label className="label">
-                <span className="label-text-alt">Select State</span>
-              </label>
+                                    <input
+                                        className="input input-bordered join-item"
+                                        placeholder="Language"
+                                        name="language"
+                                        required
+                                        value={updateData.language || ""}
+                                        onChange={(e) =>
+                                            setUpdateData({
+                                                ...updateData,
+                                                language: e.target.value,
+                                            })
+                                        }
+                                    />
+                                    <input
+                                        className="input input-bordered join-item"
+                                        placeholder="Occupation"
+                                        name="occupation"
+                                        required
+                                        value={updateData.occupation || ""}
+                                        onChange={(e) =>
+                                            setUpdateData({
+                                                ...updateData,
+                                                occupation: e.target.value,
+                                            })
+                                        }
+                                    />
+                                    <input
+                                        className="input input-bordered join-item"
+                                        placeholder="Objective"
+                                        name="objective"
+                                        required
+                                        value={updateData.objective || ""}
+                                        onChange={(e) =>
+                                            setUpdateData({
+                                                ...updateData,
+                                                objective: e.target.value,
+                                            })
+                                        }
+                                    />
+                                    <input
+                                        className="input input-bordered join-item"
+                                        placeholder="Subscription"
+                                        name="subscription"
+                                        required
+                                        value={updateData.subscription || ""}
+                                        onChange={(e) =>
+                                            setUpdateData({
+                                                ...updateData,
+                                                subscription: e.target.value,
+                                            })
+                                        }
+                                    />
+                                    <select
+                                        name="state"
+                                        className="select select-bordered"
+                                        value={updateData.country || ""}
+                                        onChange={(e) =>
+                                            setUpdateData({
+                                                ...updateData,
+                                                country: e.target.value,
+                                            })
+                                        }
+                                    >
+                                        <option>United State</option>
+                                        <option>France</option>
+                                        <option>Germany</option>
+                                    </select>
+                                    <label className="label">
+                                        <span className="label-text-alt">
+                                            Select State
+                                        </span>
+                                    </label>
+                                </div>
+                                <button className="btn">Create</button>
+                            </form>
+                            <div className="modal-action">
+                                <label
+                                    htmlFor="my_modal_6"
+                                    className="btn"
+                                    onClick={() => {
+                                        setIsUpdating({
+                                            state: false,
+                                            id: null,
+                                        });
+                                    }}
+                                >
+                                    Close!
+                                </label>
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
-            <button className="btn">Create</button>
-            <button className="btn">Cancel</button>
-          </form>
-        </div>
-      </section>
-</>
+        </>
     );
-  }
+};
 
 export default UpdateUser;

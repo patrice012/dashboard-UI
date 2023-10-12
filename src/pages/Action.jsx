@@ -1,106 +1,78 @@
 import { callEndpoint } from "../../server/endpoint";
 import { useQueryClient } from "@tanstack/react-query";
 import CreateUser from "../components/CreateUser";
-import { useContext } from 'react';
-import { UIFeedBackContext } from '../contexts/toastContext';
-
+import { useContext, useState } from "react";
+import { UIFeedBackContext } from "../contexts/toastContext";
+import postRequest from "../utils/create";
 
 const ContentAction = () => {
-  const url = callEndpoint;
+    const [showModal, setShowModal] = useState(false);
 
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
+    const url = callEndpoint;
+
+  const { showFeedBack } = useContext(UIFeedBackContext);
   
-  // function to send user data for POST request
-  async function createUser(url ,data) {
-
-    if (data == {}) throw new Error('Data is empty')
-    const response = await fetch(url, {
-      method:'POST',
-      body: JSON.stringify(data),
-      headers:{
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    });
-    // trigger re-render of user List 
-    if (response.ok) {
-      queryClient.invalidateQueries(["call"]);
-
-    }
-    return response
-  }
-
-  // create user data
-  const {showFeedBack} = useContext(UIFeedBackContext)
-  const handleCreate = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = {
-      name: formData.get("username"),
-      contry: formData.get("state"),
-      flag: formData.get("flag"),
-      profil_img: "/src/assets/user.svg",
-      language: formData.get("language"),
-      occupation: formData.get("occupation"),
-      objective: formData.get("objective"),
-      subscription: formData.get("subscription"),
+  
+    const handleUserCreation = (data) => {
+        const response = postRequest(url, data);
+        response
+            .then((response) => {
+                if (response.ok) {
+                    setShowModal(false);
+                    showFeedBack(`${data.name} was created successfully`);
+                    if (response.ok) {
+                        queryClient.invalidateQueries(["call"]);
+                    }
+                } else {
+                    showFeedBack(
+                        `Failed to create user: ${response.statusText} `
+                    );
+                }
+            })
+            .catch((error) => {
+                showFeedBack(`Failed to create user: ${error} `);
+            });
     };
 
-    const response = createUser(url, data);
-    response.then((response) => {
-      if (response.ok) {
-        // The user was successfully added, send UI alert to user
-        showFeedBack(`${data.name} was created successfully`)
-      } else {
-        // Handle errors if the deletion was not successful
-        showFeedBack(`Failed to create user: ${response.statusText} `)
-      }
-    })
-    .catch((error) => {
-      // Handle fetch errors here
-      showFeedBack(`Failed to create user: ${error} `)
-    });
-    // reset form fields
-    e.target.reset();
-    // hide modal after submission
-    const modal = document.getElementById('creationModal')
-    if (modal) modal.close()
-  };
+    return (
+        <section className="action ">
+            <div className="max-container">
+                <div className="action--buttons">
+                    <button className="btn filter">
+                        <img src="/src/assets/Filters-lines.svg" />
+                        <span>Filters</span>
+                    </button>
 
+                    <label
+                        htmlFor="my_modal_6"
+                        className="btn add-user"
+                        onClick={() => setShowModal(true)}
+                    >
+                        open modal
+                    </label>
 
+                    <CreateUser
+                        handleUserCreation={handleUserCreation}
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                    />
 
-  return (
-    <section className="action ">
-      <div className="max-container">
-        <div className="action--buttons">
-          <button className="btn filter">
-            <img src="/src/assets/Filters-lines.svg" />
-            <span>Filters</span>
-          </button>
-          <button
-            className="btn add-user"
-            onClick={() => document.getElementById("creationModal").showModal()}
-          >
-            <img src="/src/assets/plus.svg" />
-            <span>Add User</span>
-          </button>
-          <CreateUser modalId={1} handleSubmit={handleCreate}/>
-
-          <span>1 row selected</span>
-        </div>
-        <div className="form-control action--search">
-          <form>
-            <input
-              // onChange={handleChange}
-              type="text"
-              placeholder="Search"
-              className="input"
-            />
-          </form>
-          <img src="/src/assets/search.svg" />
-        </div>
-      </div>
-    </section>
-  );
+                    <span>1 row selected</span>
+                </div>
+                <div className="form-control action--search">
+                    <form>
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            className="input"
+                        />
+                    </form>
+                    <img src="/src/assets/search.svg" />
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default ContentAction;
