@@ -6,6 +6,7 @@ import { UIFeedBackContext } from "../contexts/toastContext";
 import { ConfirmAction } from "../components/UserConfirmation";
 import deleteRequest from "../utils/delete";
 import { UserDetail } from "./User";
+import { UsersListContext } from "../contexts/usersListContext";
 
 const UserList = () => {
     const [page, setPage] = useState(0);
@@ -15,7 +16,6 @@ const UserList = () => {
         isError: false,
         error: null,
     });
-    const { showFeedBack } = useContext(UIFeedBackContext);
     const [showDeleteCheck, setShowDeleteCheck] = useState({
         state: false,
         isDeleted: false,
@@ -25,35 +25,48 @@ const UserList = () => {
         id: null,
         isUpdated: false,
     });
+    const { showFeedBack } = useContext(UIFeedBackContext);
+    const { users, manageUsers } = useContext(UsersListContext);
     const url = `${callEndpoint}`;
 
-    const [data, setData] = useState([]);
 
-    useEffect(() => {
+
+    // Function to fetch data
+    const fetchDataFromServer = () => {
         fetchData(url)
-            .then((data) => {
-                console.log("use effect");
-                setData(data);
-                setQueryState(() => ({ ...queryState, isLoading: false }));
+            .then((users) => {
+                manageUsers(users);
+                setQueryState((prev) => ({ ...prev, isLoading: false }));
             })
             .catch((error) =>
-                setQueryState({
+                setQueryState((prev) => ({
+                    ...prev,
                     isLoading: false,
                     isError: true,
                     error: error.message,
-                })
+                }))
             );
-    }, [url, isUpdating.isUpdated, showDeleteCheck.isDeleted, queryState]);
+    };
+
+    // UseEffect for initial mount
+    useEffect(() => {
+        fetchDataFromServer();
+    }, []);
+
+    // UseEffect to refetch data when conditions change
+    useEffect(() => {
+        return fetchDataFromServer();
+    }, [isUpdating.isUpdated, showDeleteCheck.isDeleted]);
 
     const closeDeleteModal = () => {
-        setShowDeleteCheck({ ...showDeleteCheck, state: false });
+        setShowDeleteCheck((prev) => ({ ...prev, state: false }));
     };
 
     const handleRemoveClick = (id) => {
         const userUrl = `${callEndpoint}/${id}`;
 
         const confirmation = new Promise((resolve) => {
-            setShowDeleteCheck({ ...showDeleteCheck, state: true });
+            setShowDeleteCheck((prev) => ({ ...prev, state: true }));
             resolve(true);
         });
         confirmation.then(() => {
@@ -64,19 +77,24 @@ const UserList = () => {
                         .then((response) => {
                             if (response.ok) {
                                 showFeedBack(`delete success`);
+                                setShowDeleteCheck((prev) => ({
+                                    ...prev,
+                                    isDeleted: !prev.isDeleted,
+                                }));
                             } else {
                                 showFeedBack(
                                     `Failed to delete user: ${response.statusText} `
                                 );
                             }
-                            setShowDeleteCheck({
-                                ...showDeleteCheck,
+                            setShowDeleteCheck((prev) => ({
+                                ...prev,
                                 state: false,
-                            });
+                            }));
                         })
                         .catch((error) => {
-                            console.log(error);
-                            showDeleteCheck(false); // check docs
+                            showFeedBack(
+                                `Failed to delete user: ${error.statusText} `
+                            );
                         });
                 }
             });
@@ -85,10 +103,8 @@ const UserList = () => {
 
     // update user part
     const handleUpdate = (id) => {
-        setIsUpdating({ state: true, id: id });
+        setIsUpdating((prev) => ({ ...prev, state: true, id: id }));
     };
-
-    // useEffect(() => {}, [isUpdating]);
 
     return (
         <section>
@@ -141,7 +157,7 @@ const UserList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((user) => {
+                            {users.map((user) => {
                                 return (
                                     <UserDetail
                                         key={user.id}

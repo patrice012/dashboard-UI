@@ -2,16 +2,7 @@ import { createContext } from "react";
 import { useState } from "react";
 
 
-const UserContext = createContext({
-  "name": undefined,
-  "country": "United States",
-  "flag": "/src/assets/flag.png",
-  "profil_img": undefined,
-  "language": undefined,
-  "occupation": undefined,
-  "objective": undefined,
-  "subscription": undefined,
-})
+const UserContext = createContext()
 
 
 const UserProvider = ({children}) => {

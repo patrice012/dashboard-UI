@@ -3,34 +3,28 @@ import fetchData from "../utils/fetchData";
 import { callEndpoint } from "../../server/endpoint";
 import putRequest from "../utils/update";
 import { UIFeedBackContext } from "../contexts/toastContext";
-import { useQueryClient } from "@tanstack/react-query";
 
 const UpdateUser = ({ id, showModal, setIsUpdating }) => {
     const url = `${callEndpoint}/${id}`;
-    const queryClient = useQueryClient();
 
     const [updateData, setUpdateData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const { showFeedBack } = useContext(UIFeedBackContext);
 
+    
     useEffect(() => {
-        const response = fetchData(url);
-        response.then((data) => {
-            setUpdateData({ ...data });
-            setIsLoading(false);
-        });
+        fetchData(url)
+            .then((data) => {
+                setUpdateData({ ...data });
+                setIsLoading(false);
+            });
     }, [url]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const response = putRequest(url, updateData);
         response.then((data) => showFeedBack(`${data.name} was updated`));
-        setIsUpdating({
-            state: false,
-          id: null,
-            isUpdated:true
-        });
-        queryClient.invalidateQueries(["call"]);
+        setIsUpdating((prev) => ({ ...prev, state:false, id:null, isUpdated: !prev.isUpdated })); // Set isUpdated to true on record update
     };
 
     return (
@@ -151,6 +145,7 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
                                         setIsUpdating({
                                             state: false,
                                             id: null,
+                                            isUpdated: false,
                                         });
                                     }}
                                 >

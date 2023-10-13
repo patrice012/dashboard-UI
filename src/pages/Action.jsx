@@ -1,19 +1,16 @@
 import { callEndpoint } from "../../server/endpoint";
-import { useQueryClient } from "@tanstack/react-query";
 import CreateUser from "../components/CreateUser";
 import { useContext, useState } from "react";
 import { UIFeedBackContext } from "../contexts/toastContext";
 import postRequest from "../utils/create";
+import { UsersListContext } from "../contexts/usersListContext";
 
 const ContentAction = () => {
     const [showModal, setShowModal] = useState(false);
-
-    const queryClient = useQueryClient();
+    const { showFeedBack } = useContext(UIFeedBackContext);
+    const { manageUsers } = useContext(UsersListContext);
     const url = callEndpoint;
 
-  const { showFeedBack } = useContext(UIFeedBackContext);
-  
-  
     const handleUserCreation = (data) => {
         const response = postRequest(url, data);
         response
@@ -21,15 +18,15 @@ const ContentAction = () => {
                 if (response.ok) {
                     setShowModal(false);
                     showFeedBack(`${data.name} was created successfully`);
-                    if (response.ok) {
-                        queryClient.invalidateQueries(["call"]);
-                    }
+                    return response.json();
                 } else {
                     showFeedBack(
                         `Failed to create user: ${response.statusText} `
                     );
+                    throw new Error()
                 }
             })
+            .then((data) => manageUsers((prev) => [data, ...prev]))
             .catch((error) => {
                 showFeedBack(`Failed to create user: ${error} `);
             });
