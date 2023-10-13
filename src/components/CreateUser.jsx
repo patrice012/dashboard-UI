@@ -79,7 +79,7 @@ const CreateUser = ({ handleUserCreation, showModal, setShowModal }) => {
                                 </span>
                             </label>
                         </div>
-                        <button className="btn">Create</button>
+                        <button className="btn">Create user</button>
                     </form>
                     <div className="modal-action">
                         <label
@@ -89,7 +89,7 @@ const CreateUser = ({ handleUserCreation, showModal, setShowModal }) => {
                                 setShowModal(!showModal);
                             }}
                         >
-                            Close!
+                            Close
                         </label>
                     </div>
                 </div>

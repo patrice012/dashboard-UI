@@ -24,7 +24,7 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
         e.preventDefault();
         const response = putRequest(url, updateData);
         response.then((data) => showFeedBack(`${data.name} was updated`));
-        setIsUpdating((prev) => ({ ...prev, state:false, id:null, isUpdated: !prev.isUpdated })); // Set isUpdated to true on record update
+        setIsUpdating((prev) => ({ ...prev, state:false, id:null, isUpdated: !prev.isUpdated }));
     };
 
     return (
@@ -135,7 +135,9 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
                                         </span>
                                     </label>
                                 </div>
-                                <button className="btn">Create</button>
+                                <button className="btn">
+                                    Update {updateData.name}
+                                </button>
                             </form>
                             <div className="modal-action">
                                 <label
@@ -149,7 +151,7 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
                                         });
                                     }}
                                 >
-                                    Close!
+                                    Close
                                 </label>
                             </div>
                         </>

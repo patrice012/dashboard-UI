@@ -1,12 +1,11 @@
-const UIFeedback = ({state, message}) => {
-
+const UIFeedback = ({ message }) => {
     return (
-    <div className="toast toast-top toast-center">
-        <div className="alert alert-blue">
-            <span>{message}</span>
+        <div className="toast toast-top toast-center">
+            <div className="alert alert-blue">
+                <span>{message}</span>
+            </div>
         </div>
-    </div>
-    )
-}
+    );
+};
 
-export default UIFeedback
+export default UIFeedback;

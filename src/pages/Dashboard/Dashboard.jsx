@@ -1,14 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import NavBar from "../components/NavBar";
-import OutComes from "../pages/OutComes";
-import ContentAction from "../pages/Action";
+import NavBar from "../../components/NavBar";
+import OutComes from "./OutComes";
+import ContentAction from "./Action";
 import UserList from "./UsersList";
-// import UpdateUser from "../components/EditUser";
-import UIFeedback from "../components/Toast";
-import { useContext, useState } from "react";
-import { UIFeedBackContext } from "../contexts/toastContext";
+import UIFeedback from "../../components/Toast";
+import { useContext } from "react";
+import { UIFeedBackContext } from "../../contexts/toastContext";
 
-import { UsersListProvider } from "../contexts/usersListContext";
+import { UsersListProvider } from "../../contexts/usersListContext";
 
 const Content = () => {
     return (

@@ -1,9 +1,9 @@
-import { callEndpoint } from "../../server/endpoint";
-import CreateUser from "../components/CreateUser";
+import { callEndpoint } from "../../../server/endpoint";
+import CreateUser from "../../components/CreateUser";
 import { useContext, useState } from "react";
-import { UIFeedBackContext } from "../contexts/toastContext";
-import postRequest from "../utils/create";
-import { UsersListContext } from "../contexts/usersListContext";
+import { UIFeedBackContext } from "../../contexts/toastContext";
+import postRequest from "../../utils/create";
+import { UsersListContext } from "../../contexts/usersListContext";
 
 const ContentAction = () => {
     const [showModal, setShowModal] = useState(false);
@@ -23,7 +23,7 @@ const ContentAction = () => {
                     showFeedBack(
                         `Failed to create user: ${response.statusText} `
                     );
-                    throw new Error()
+                    throw new Error();
                 }
             })
             .then((data) => manageUsers((prev) => [data, ...prev]))

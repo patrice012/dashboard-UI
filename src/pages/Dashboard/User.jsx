@@ -11,8 +11,6 @@ export const UserDetail = (props) => {
                     <div className="flex items-center space-x-3">
                         <label>
                             <input
-                                defaultChecked
-                                // checked={selected}
                                 type="checkbox"
                                 className="checkbox"
                             />

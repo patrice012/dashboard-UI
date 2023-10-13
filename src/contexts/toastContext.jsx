@@ -22,10 +22,11 @@ const UIFeedBackProvider = ({children}) => {
         })
         // hide modal after 5s and reset modal's message
         setTimeout(() => {
-            setFeedBack({
-                "state": false,
-                "message": null
-            })
+            setFeedBack((prev) => ({
+                ...prev,
+                state: false,
+                message: null,
+            }));
         }, timer)
     }
 

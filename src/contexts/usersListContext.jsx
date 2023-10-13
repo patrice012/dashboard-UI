@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-const UsersListContext = createContext();
+const UsersListContext = createContext([]);
 
 const UsersListProvider = ({ children }) => {
     const [users, setUsers] = useState([]);

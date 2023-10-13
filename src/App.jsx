@@ -1,6 +1,6 @@
 // import './App.css'
 import './styles/index.css';
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './contexts/userContext';

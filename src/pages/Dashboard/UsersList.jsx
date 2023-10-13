@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { callEndpoint } from "../../server/endpoint";
-import fetchData from "../utils/fetchData";
-import UpdateUser from "../components/EditUser";
-import { UIFeedBackContext } from "../contexts/toastContext";
-import { ConfirmAction } from "../components/UserConfirmation";
-import deleteRequest from "../utils/delete";
+import { callEndpoint } from "../../../server/endpoint";
+import fetchData from "../../utils/fetchData";
+import UpdateUser from "../../components/EditUser";
+import { UIFeedBackContext } from "../../contexts/toastContext";
+import { ConfirmAction } from "../../components/UserConfirmation";
+import deleteRequest from "../../utils/delete";
 import { UserDetail } from "./User";
-import { UsersListContext } from "../contexts/usersListContext";
+import { UsersListContext } from "../../contexts/usersListContext";
 
 const UserList = () => {
     const [page, setPage] = useState(0);
