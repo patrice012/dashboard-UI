@@ -55,7 +55,8 @@ input[type="checkbox"]:checked::before {
 
     .menu {
       @include u.breakpoint-down(large) {
-        width: minmax(15.625rem, max-content); //250px
+        width:max-content;
+        min-width: 15.625rem; //250px
       }
     }
   }

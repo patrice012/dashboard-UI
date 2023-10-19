@@ -7,8 +7,9 @@ import deleteRequest from "../../utils/delete";
 import { UserDetail } from "./User";
 import { UsersListContext } from "../../contexts/usersListContext";
 import { useFetch } from "../../hooks/useFetch";
+import { json } from "react-router-dom";
 
-const UserList = () => {
+const UserList = ({ setSelectes }) => {
     const [page, setPage] = useState(0);
 
     const [queryState, setQueryState] = useState({
@@ -25,22 +26,10 @@ const UserList = () => {
         isUpdated: false,
     });
     const { showFeedBack } = useContext(UIFeedBackContext);
-    // const { users, manageUsers } = useContext(UsersListContext);
     const { users } = useContext(UsersListContext);
     const url = callEndpoint;
 
     const { request, data, error } = useFetch(url);
-
-    useEffect(() => {
-        const abortCont = new AbortController();
-        request();
-        setQueryState((prev) => ({
-            ...prev,
-            isLoading: false,
-            error: error?.message,
-        }));
-        return () => abortCont.abort();
-    }, [users]);
 
     // update user's list after update or delete action
     useEffect(() => {
@@ -52,15 +41,14 @@ const UserList = () => {
             error: error?.message,
         }));
         return () => abortCont.abort();
-    }, [isUpdating.isUpdated, showDeleteCheck.isDeleted]);
-
+    }, [isUpdating.isUpdated, showDeleteCheck.isDeleted, users]);
 
     const closeDeleteModal = () => {
         setShowDeleteCheck((prev) => ({ ...prev, state: false }));
     };
 
     const handleRemoveClick = (id) => {
-        const userUrl = callEndpoint + '/' + id;
+        const userUrl = callEndpoint + "/" + id;
 
         const confirmation = new Promise((resolve) => {
             setShowDeleteCheck((prev) => ({ ...prev, state: true }));
@@ -99,8 +87,26 @@ const UserList = () => {
     };
 
     // update user part
+
     const handleUpdate = (id) => {
         setIsUpdating((prev) => ({ ...prev, state: true, id: id }));
+    };
+
+
+
+    // update selected elements
+    if (sessionStorage.getItem("selection") == null || sessionStorage.getItem('selection') == 'undefined'){
+        const selectedList = data?.map((ele) => ({
+            id: ele.id,
+            selected: ele.selected,
+        }));
+        sessionStorage.setItem("selection", JSON.stringify(selectedList));
+    }
+    const handleSelecte = (index) => {
+        let selected = JSON.parse(sessionStorage.getItem("selection"));
+        selected[index].selected = !selected[index].selected;
+        sessionStorage["selection"] = JSON.stringify(selected);
+        setSelectes(selected);
     };
 
     return (
@@ -154,13 +160,15 @@ const UserList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.map((user) => {
+                            {data?.map((user, index) => {
                                 return (
                                     <UserDetail
                                         key={user.id}
+                                        index={index}
                                         {...user}
                                         handleRemoveClick={handleRemoveClick}
                                         handleUpdate={handleUpdate}
+                                        handleSelecte={handleSelecte}
                                     />
                                 );
                             })}
@@ -201,10 +209,12 @@ const UserList = () => {
                     </table>
                 )}
             </div>
-            {showDeleteCheck.state && <ConfirmAction
-                checked={showDeleteCheck.state}
-                closeDeleteModal={closeDeleteModal}
-            />}
+            {showDeleteCheck.state && (
+                <ConfirmAction
+                    checked={showDeleteCheck.state}
+                    closeDeleteModal={closeDeleteModal}
+                />
+            )}
             {isUpdating.state && (
                 <UpdateUser
                     showModal={isUpdating.state}

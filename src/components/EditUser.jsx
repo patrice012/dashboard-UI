@@ -5,26 +5,45 @@ import putRequest from "../utils/update";
 import { UIFeedBackContext } from "../contexts/toastContext";
 
 const UpdateUser = ({ id, showModal, setIsUpdating }) => {
-    const url = `${callEndpoint}/${id}`;
+    const url = callEndpoint + "/" + id;
 
     const [updateData, setUpdateData] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
     const { showFeedBack } = useContext(UIFeedBackContext);
 
-    
+    const [queryState, setQueryState] = useState({
+        isLoading: true,
+        error: null,
+    });
+
     useEffect(() => {
+        const abortCont = new AbortController();
         fetchData(url)
             .then((data) => {
                 setUpdateData({ ...data });
-                setIsLoading(false);
+                setQueryState((prev) => ({ ...prev, isLoading: false }));
+            })
+            .catch((error) => {
+                setQueryState((prev) => ({
+                    ...prev,
+                    isLoading: false,
+                    error: error,
+                }));
             });
+        return () => abortCont.abort();
     }, [url]);
+
+    console.log(updateData, "updated data");
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const response = putRequest(url, updateData);
         response.then((data) => showFeedBack(`${data.name} was updated`));
-        setIsUpdating((prev) => ({ ...prev, state:false, id:null, isUpdated: !prev.isUpdated }));
+        setIsUpdating((prev) => ({
+            ...prev,
+            state: false,
+            id: null,
+            isUpdated: !prev.isUpdated,
+        }));
     };
 
     return (
@@ -38,8 +57,10 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
             />
             <div className="modal" id="creationModal">
                 <div className="modal-box">
-                    {isLoading ? (
+                    {queryState?.isLoading ? (
                         <p>Loading data. Please wait...</p>
+                    ) : queryState?.error ? (
+                        <p>{queryState.error}</p>
                     ) : (
                         <>
                             <form
@@ -53,7 +74,7 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
                                         placeholder="Name"
                                         name="username"
                                         required
-                                        value={updateData.name || ""}
+                                        value={updateData?.name || ""}
                                         onChange={(e) =>
                                             setUpdateData({
                                                 ...updateData,

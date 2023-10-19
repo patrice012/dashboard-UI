@@ -5,7 +5,7 @@ import { UIFeedBackContext } from "../../contexts/toastContext";
 import postRequest from "../../utils/create";
 import { UsersListContext } from "../../contexts/usersListContext";
 
-const ContentAction = () => {
+const ContentAction = ({ selectesItems }) => {
     const [showModal, setShowModal] = useState(false);
     const { showFeedBack } = useContext(UIFeedBackContext);
     const { manageUsers } = useContext(UsersListContext);
@@ -27,7 +27,7 @@ const ContentAction = () => {
                 }
             })
             .then((data) => {
-                console.log(data, 'create part')
+                console.log(data, "create part");
                 manageUsers((prev) => [data, ...prev]);
             })
             .catch((error) => {
@@ -44,13 +44,13 @@ const ContentAction = () => {
                         <span>Filters</span>
                     </button>
 
-                    <label
+                    <button
                         htmlFor="my_modal_6"
                         className="btn add-user"
                         onClick={() => setShowModal(true)}
                     >
-                        open modal
-                    </label>
+                        create user
+                    </button>
 
                     <CreateUser
                         handleUserCreation={handleUserCreation}
@@ -58,7 +58,7 @@ const ContentAction = () => {
                         setShowModal={setShowModal}
                     />
 
-                    <span>1 row selected</span>
+                    <span>{selectesItems == undefined ? 0 : selectesItems} row selected</span>
                 </div>
                 <div className="form-control action--search">
                     <form>

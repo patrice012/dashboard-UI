@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
 
@@ -12,8 +13,11 @@ export const UserDetail = (props) => {
         occupation,
         objective,
         subscription,
+        index,
     } = props;
-    const { handleRemoveClick, handleUpdate } = props;
+    const { handleRemoveClick, handleUpdate, handleSelecte } = props;
+
+    const {selected} = JSON.parse(sessionStorage.getItem("selection")).filter(ele => ele.id == id)[0];
 
     return (
         <>
@@ -21,7 +25,14 @@ export const UserDetail = (props) => {
                 <td>
                     <div className="flex items-center space-x-3">
                         <label>
-                            <input type="checkbox" className="checkbox" />
+                            <input
+                                type="checkbox"
+                                className="checkbox"
+                                checked={selected}
+                                onChange={() => {
+                                    handleSelecte(index);
+                                }}
+                            />
                         </label>
                         <div className="avatar">
                             <div className="mask mask-squircle w-12 h-12">

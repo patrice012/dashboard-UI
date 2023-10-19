@@ -80,16 +80,5 @@
   & > div,
   &--search {
     @include u.flex($justify: space-between, $align: center);
-
-    // & input {
-    //   transform: scale(0) translateX(100%);
-    //   visibility: hidden;
-
-    //   &:focus{
-    //     border: 1px solid red;
-    //     transform: scale(1) translateX(0);
-    //     visibility: initial;
-    //   }
-    // }
   }
 }

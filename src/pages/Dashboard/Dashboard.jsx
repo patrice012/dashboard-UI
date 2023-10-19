@@ -4,18 +4,32 @@ import OutComes from "./OutComes";
 import ContentAction from "./Action";
 import UserList from "./UsersList";
 import UIFeedback from "../../components/Toast";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UIFeedBackContext } from "../../contexts/toastContext";
 import { UsersListProvider } from "../../contexts/usersListContext";
 import { SideNavBar } from "../../components/SideNavBard/SideNavBard";
 
 const Content = () => {
+    const [selectes, setSelectes] = useState(
+        sessionStorage.getItem("selection")
+    );
+    let selectesItems = 0;
+    if (selectes != "undefined") {
+        let selectesArray = selectes;
+        if (typeof selectes != typeof []) {
+            selectesArray = JSON.parse(selectes);
+        }
+        selectesItems = selectesArray?.filter(
+            (ele) => ele.selected == true
+        ).length;
+    }
+
     return (
         <>
             <OutComes />
             <UsersListProvider>
-                <ContentAction />
-                <UserList />
+                <ContentAction selectesItems={selectesItems} />
+                <UserList setSelectes={setSelectes} />
             </UsersListProvider>
         </>
     );
