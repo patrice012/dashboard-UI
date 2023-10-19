@@ -176,12 +176,90 @@ input[type=checkbox]:checked::before {
   transition: all 0.3s ease-in;
 }
 
-.bg-main {
-  background-color: var(--panel-bg);
+.add-user__container {
+  background-color: red;
+}
+.add-user--form {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+.add-user--form button {
+  margin-top: 1rem;
+  border: none;
+  color: var(--white-color);
+  border-radius: var(--radius, 0.6rem) !important;
+  background-color: var(--btn-color) !important;
+}
+.add-user--form button:hover {
+  background-color: var(--btn-hover-color);
+  opacity: 75%;
+  transition: all 0.3s ease-in;
+}
+.add-user--fields {
+  display: grid !important;
+  gap: 1rem;
+  width: 80% !important;
+  max-width: 100%;
+}
+.add-user--fields input, .add-user--fields select {
+  width: 100%;
+  border-radius: var(--radius) !important;
+}
+.add-user select label > span {
+  color: var(--icon-gray-light);
+  font-size: 0.8rem;
 }
 
-.content-bg {
-  background-color: rgb(244, 244, 244);
+#creationModal .modal-box, #updateModal .modal-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  max-height: 100% !important;
+  position: relative;
+}
+#creationModal .modal-box h3, #updateModal .modal-box h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+#creationModal .modal-action, #updateModal .modal-action {
+  position: absolute;
+  top: -1%;
+  right: 2%;
+}
+
+.modal.delete-user {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.modal.delete-user div.modal-box {
+  height: -moz-fit-content;
+  height: fit-content;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+}
+.modal.delete-user div.modal-box > div {
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+}
+.modal.delete-user div.modal-box button {
+  border: none;
+  color: var(--white-color);
+  border-radius: var(--radius, 0.6rem);
+  background-color: var(--btn-color);
+  padding: 0.5rem 1.3rem;
+}
+.modal.delete-user div.modal-box button:hover {
+  background-color: var(--btn-hover-color);
+  opacity: 75%;
+  transition: all 0.3s ease-in;
 }
 
 .admin {
@@ -218,7 +296,7 @@ input[type=checkbox]:checked::before {
   width: 100%;
   padding: 0.6rem 0rem;
 }
-.sideBard-link:has(> *:hover), .sideBard-link:hover {
+.sideBard-link:hover {
   fill: var(--white-color);
   background-color: var(--icon-hover);
   border-left: 0.1875rem solid var(--white-color);
@@ -252,10 +330,6 @@ input[type=checkbox]:checked::before {
   padding: 0 0.8rem 0 0 !important;
 }
 
-.sideBard-link div:has(> .active) {
-  background-color: red;
-}
-
 .navbar {
   background-color: var(--white-color);
   border-bottom: 1px solid var(--icon-gray-light);
@@ -268,6 +342,14 @@ input[type=checkbox]:checked::before {
   flex-direction: row;
   flex-wrap: nowrap;
   max-width: 100%;
+}
+
+.bg-main {
+  background-color: var(--panel-bg);
+}
+
+.content-bg {
+  background-color: rgb(244, 244, 244);
 }
 
 .intro {
@@ -515,90 +597,4 @@ table.UserList thead > tr > th:first-child {
 }
 .action--search img, .action--search svg {
   left: 6%;
-}
-
-.add-user__container {
-  background-color: red;
-}
-.add-user--form {
-  width: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  max-width: 100%;
-}
-.add-user--form button {
-  margin-top: 1rem;
-  border: none;
-  color: var(--white-color);
-  border-radius: var(--radius, 0.6rem) !important;
-  background-color: var(--btn-color) !important;
-}
-.add-user--form button:hover {
-  background-color: var(--btn-hover-color);
-  opacity: 75%;
-  transition: all 0.3s ease-in;
-}
-.add-user--fields {
-  display: grid !important;
-  gap: 1rem;
-  width: 80% !important;
-  max-width: 100%;
-}
-.add-user--fields input, .add-user--fields select {
-  width: 100%;
-  border-radius: var(--radius) !important;
-}
-.add-user select label > span {
-  color: var(--icon-gray-light);
-  font-size: 0.8rem;
-}
-
-#creationModal .modal-box, #updateModal .modal-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  max-height: 100% !important;
-  position: relative;
-}
-#creationModal .modal-box h3, #updateModal .modal-box h3 {
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
-}
-#creationModal .modal-action, #updateModal .modal-action {
-  position: absolute;
-  top: -1%;
-  right: 2%;
-}
-
-.modal.delete-user {
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-.modal.delete-user div.modal-box {
-  height: -moz-fit-content;
-  height: fit-content;
-  display: grid;
-  place-items: center;
-  gap: 1rem;
-}
-.modal.delete-user div.modal-box > div {
-  height: -moz-fit-content !important;
-  height: fit-content !important;
-}
-.modal.delete-user div.modal-box button {
-  border: none;
-  color: var(--white-color);
-  border-radius: var(--radius, 0.6rem);
-  background-color: var(--btn-color);
-  padding: 0.5rem 1.3rem;
-}
-.modal.delete-user div.modal-box button:hover {
-  background-color: var(--btn-hover-color);
-  opacity: 75%;
-  transition: all 0.3s ease-in;
 }/*# sourceMappingURL=index.css.map */

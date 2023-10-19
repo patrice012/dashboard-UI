@@ -1,36 +1,26 @@
 import { userEndpoint } from "../../server/endpoint";
-
-import fetchData from "../utils/fetchData";
+import { useFetch } from "../hooks/useFetch";
 import { useEffect, useState } from "react";
 
 const NavBar = () => {
+    const url = userEndpoint + "/" + 1;
     const [queryState, setQueryState] = useState({
         isLoading: true,
-        isError: false,
         error: null,
-        user: {},
     });
-
-    const url = `${userEndpoint}/1`;
+    const { request, data:user, error } = useFetch(url);
 
     useEffect(() => {
-        fetchData(url)
-            .then((response) =>
-                setQueryState((prev) => ({
-                    ...prev,
-                    isLoading: false,
-                    user: response,
-                }))
-            )
-            .catch((error) =>
-                setQueryState((prev) => ({
-                    ...prev,
-                    isLoading: false,
-                    isError: true,
-                    error: error.message,
-                }))
-            );
+        const abortCont = new AbortController();
+        request();
+        setQueryState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error: error?.message,
+        }));
+        return () => abortCont.abort();
     }, [url]);
+
 
     return (
         <div className="navbar">
@@ -38,12 +28,12 @@ const NavBar = () => {
                 <div className="">
                     {queryState.isLoading ? (
                         "Loading..."
-                    ) : queryState.isError ? (
+                    ) : queryState.error ? (
                         queryState.error
                     ) : (
                         <p className="btn btn-ghost normal-case text-l">
                             <span className="intro">
-                                Hello, {queryState.user.name}
+                                Hello, {user?.name}
                             </span>
                             <img src="/src/assets/hola.png" />
                         </p>
@@ -51,7 +41,7 @@ const NavBar = () => {
                 </div>
                 {queryState.isLoading ? (
                     "Loading..."
-                ) : queryState.isError ? (
+                ) : queryState.error ? (
                     queryState.error
                 ) : (
                     <div className="navbar--search">
@@ -70,7 +60,7 @@ const NavBar = () => {
                             >
                                 <div className="w-10 rounded-full">
                                     <img
-                                        src={queryState.user.profil_img}
+                                        src={user?.profil_img}
                                         className="profil"
                                     />
                                 </div>

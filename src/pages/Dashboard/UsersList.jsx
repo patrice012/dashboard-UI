@@ -1,19 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { callEndpoint } from "../../../server/endpoint";
-import fetchData from "../../utils/fetchData";
 import UpdateUser from "../../components/EditUser";
 import { UIFeedBackContext } from "../../contexts/toastContext";
 import { ConfirmAction } from "../../components/UserConfirmation";
 import deleteRequest from "../../utils/delete";
 import { UserDetail } from "./User";
 import { UsersListContext } from "../../contexts/usersListContext";
+import { useFetch } from "../../hooks/useFetch";
 
 const UserList = () => {
     const [page, setPage] = useState(0);
 
     const [queryState, setQueryState] = useState({
         isLoading: true,
-        isError: false,
         error: null,
     });
     const [showDeleteCheck, setShowDeleteCheck] = useState({
@@ -26,44 +25,42 @@ const UserList = () => {
         isUpdated: false,
     });
     const { showFeedBack } = useContext(UIFeedBackContext);
-    const { users, manageUsers } = useContext(UsersListContext);
-    const url = `${callEndpoint}`;
+    // const { users, manageUsers } = useContext(UsersListContext);
+    const { users } = useContext(UsersListContext);
+    const url = callEndpoint;
 
+    const { request, data, error } = useFetch(url);
 
-
-    // Function to fetch data
-    const fetchDataFromServer = () => {
-        fetchData(url)
-            .then((users) => {
-                manageUsers(users);
-                setQueryState((prev) => ({ ...prev, isLoading: false }));
-            })
-            .catch((error) =>
-                setQueryState((prev) => ({
-                    ...prev,
-                    isLoading: false,
-                    isError: true,
-                    error: error.message,
-                }))
-            );
-    };
-
-    // UseEffect for initial mount
     useEffect(() => {
-        fetchDataFromServer();
-    }, []);
+        const abortCont = new AbortController();
+        request();
+        setQueryState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error: error?.message,
+        }));
+        return () => abortCont.abort();
+    }, [users]);
 
-    // UseEffect to refetch data when conditions change
+    // update user's list after update or delete action
     useEffect(() => {
-        return fetchDataFromServer();
+        const abortCont = new AbortController();
+        request();
+        setQueryState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error: error?.message,
+        }));
+        return () => abortCont.abort();
     }, [isUpdating.isUpdated, showDeleteCheck.isDeleted]);
+
 
     const closeDeleteModal = () => {
         setShowDeleteCheck((prev) => ({ ...prev, state: false }));
     };
 
     const handleRemoveClick = (id) => {
-        const userUrl = `${callEndpoint}/${id}`;
+        const userUrl = callEndpoint + '/' + id;
 
         const confirmation = new Promise((resolve) => {
             setShowDeleteCheck((prev) => ({ ...prev, state: true }));
@@ -72,7 +69,7 @@ const UserList = () => {
         confirmation.then(() => {
             const deletionModale = document.getElementById("ConfirmDeletion");
             deletionModale.addEventListener("click", (e) => {
-                if (e.originalTarget.id === "confirmBtn") {
+                if (e.target.id === "confirmBtn") {
                     deleteRequest(userUrl)
                         .then((response) => {
                             if (response.ok) {
@@ -111,7 +108,7 @@ const UserList = () => {
             <div className="overflow-x-auto max-container">
                 {queryState.isLoading ? (
                     <p>Loading...</p>
-                ) : queryState.isError ? (
+                ) : queryState.error ? (
                     <p>{queryState.error}</p>
                 ) : (
                     <table className="table UserList">
@@ -157,7 +154,7 @@ const UserList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user) => {
+                            {data?.map((user) => {
                                 return (
                                     <UserDetail
                                         key={user.id}
@@ -204,10 +201,10 @@ const UserList = () => {
                     </table>
                 )}
             </div>
-            <ConfirmAction
+            {showDeleteCheck.state && <ConfirmAction
                 checked={showDeleteCheck.state}
                 closeDeleteModal={closeDeleteModal}
-            />
+            />}
             {isUpdating.state && (
                 <UpdateUser
                     showModal={isUpdating.state}

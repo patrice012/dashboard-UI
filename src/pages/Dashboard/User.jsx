@@ -2,7 +2,18 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
 
 export const UserDetail = (props) => {
-    const id = props.id;
+    const { id } = props;
+    const {
+        profil_img,
+        flag,
+        name,
+        country,
+        language,
+        occupation,
+        objective,
+        subscription,
+    } = props;
+    const { handleRemoveClick, handleUpdate } = props;
 
     return (
         <>
@@ -10,47 +21,39 @@ export const UserDetail = (props) => {
                 <td>
                     <div className="flex items-center space-x-3">
                         <label>
-                            <input
-                                type="checkbox"
-                                className="checkbox"
-                            />
+                            <input type="checkbox" className="checkbox" />
                         </label>
                         <div className="avatar">
                             <div className="mask mask-squircle w-12 h-12">
-                                <img
-                                    src={props.profil_img}
-                                    alt="profile picture"
-                                />
+                                <img src={profil_img} alt="profile picture" />
                             </div>
                         </div>
                         <div>
                             <div className="user">
-                                <span className="user--name">{props.name}</span>
+                                <span className="user--name">{name}</span>
                                 <span>
-                                    <img src={props.flag} />
+                                    <img src={flag} />
                                 </span>
                             </div>
-                            <div className="user--email">{props.country}</div>
+                            <div className="user--email">{country}</div>
                         </div>
                     </div>
                 </td>
-                <td>{props.language}</td>
-                <td>{props.occupation}</td>
-                <th>{props.objective}</th>
-                <th>{props.subscription}</th>
+                <td>{language}</td>
+                <td>{occupation}</td>
+                <th>{objective}</th>
+                <th>{subscription}</th>
                 <th>
                     <div className="row-action">
                         <div>
                             <HiOutlineTrash
                                 onClick={() => {
-                                    props.handleRemoveClick(id);
+                                    handleRemoveClick(id);
                                 }}
                             />
                         </div>
                         <div>
-                            <HiOutlinePencil
-                                onClick={() => props.handleUpdate(id)}
-                            />
+                            <HiOutlinePencil onClick={() => handleUpdate(id)} />
                         </div>
                     </div>
                 </th>

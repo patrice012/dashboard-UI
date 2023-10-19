@@ -26,7 +26,10 @@ const ContentAction = () => {
                     throw new Error();
                 }
             })
-            .then((data) => manageUsers((prev) => [data, ...prev]))
+            .then((data) => {
+                console.log(data, 'create part')
+                manageUsers((prev) => [data, ...prev]);
+            })
             .catch((error) => {
                 showFeedBack(`Failed to create user: ${error} `);
             });
