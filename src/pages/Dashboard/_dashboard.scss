@@ -1,4 +1,4 @@
-@use "../styles/utils" as u;
+@use "../../styles/utils/" as u;
 
 .bg-main {
   background-color: var(--panel-bg);
@@ -37,6 +37,7 @@
   justify-items: space-between;
   width: 100%;
   padding: 0.6rem 0rem;
+  &:has(> *:hover),
   &:hover {
     fill: var(--white-color);
     background-color: var(--icon-hover);
@@ -75,6 +76,10 @@
 .sideBard-icon--left {
   justify-self: flex-end;
   padding: 0 0.8rem 0 0 !important;
+}
+
+.sideBard-link div:has(> .active) {
+  background-color: red;
 }
 
 // nav-bar

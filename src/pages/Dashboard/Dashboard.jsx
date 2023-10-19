@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, NavLink } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import OutComes from "./OutComes";
 import ContentAction from "./Action";
@@ -62,10 +62,18 @@ const Dashboard = () => {
                             <li className="sideBard-link">
                                 <div>
                                     <img
-                                        className="sideBard-icon"
+                                        className={"sideBard-icon" + {}}
                                         src="src/assets/Call.svg"
                                     />
-                                    <a>Live calls</a>
+
+                                    <NavLink
+                                        to="/"
+                                        className={({ isActive }) =>
+                                            isActive ? "active" : ""
+                                        }
+                                    >
+                                        Live calls
+                                    </NavLink>
                                 </div>
 
                                 <div className="sideBard-icon--left">
