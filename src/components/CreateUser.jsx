@@ -11,6 +11,7 @@ const CreateUser = ({ handleUserCreation, showModal, setShowModal }) => {
             occupation: formData.get("occupation"),
             objective: formData.get("objective"),
             subscription: formData.get("subscription"),
+            selected: false,
         };
         // reset form fields
         e.target.reset();

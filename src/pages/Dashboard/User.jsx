@@ -16,8 +16,7 @@ export const UserDetail = (props) => {
         index,
     } = props;
     const { handleRemoveClick, handleUpdate, handleSelecte } = props;
-
-    const {selected} = JSON.parse(sessionStorage.getItem("selection")).filter(ele => ele.id == id)[0];
+    const {selected} = JSON.parse(sessionStorage.getItem("selection")).filter(ele => ele.id == id);
 
     return (
         <>

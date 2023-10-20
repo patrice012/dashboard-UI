@@ -17,6 +17,7 @@ const ContentAction = ({ selectesItems }) => {
             .then((response) => {
                 if (response.ok) {
                     setShowModal(false);
+                    console.log(response, 'jsoonf')
                     showFeedBack(`${data.name} was created successfully`);
                     return response.json();
                 } else {

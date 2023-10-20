@@ -7,7 +7,7 @@ import deleteRequest from "../../utils/delete";
 import { UserDetail } from "./User";
 import { UsersListContext } from "../../contexts/usersListContext";
 import { useFetch } from "../../hooks/useFetch";
-import { json } from "react-router-dom";
+import { mergeArray } from "../../utils/mergeArray";
 
 const UserList = ({ setSelectes }) => {
     const [page, setPage] = useState(0);
@@ -92,14 +92,13 @@ const UserList = ({ setSelectes }) => {
         setIsUpdating((prev) => ({ ...prev, state: true, id: id }));
     };
 
-
-
     // update selected elements
-    if (sessionStorage.getItem("selection") == null || sessionStorage.getItem('selection') == 'undefined'){
-        const selectedList = data?.map((ele) => ({
-            id: ele.id,
-            selected: ele.selected,
-        }));
+    const selectedList = data?.map((ele) => ({
+        id: ele.id,
+        selected: ele.selected,
+    }));
+    const savedData = sessionStorage.getItem("selection");
+    if (savedData == null || savedData == "undefined") {
         sessionStorage.setItem("selection", JSON.stringify(selectedList));
     }
     const handleSelecte = (index) => {
