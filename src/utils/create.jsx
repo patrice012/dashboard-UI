@@ -1,6 +1,4 @@
-// function to send user data for POST request
 export default async function postRequest(url, data = {}) {
-    console.log(data)
     if (data == {}) throw new Error("Data is empty");
     const response = await fetch(url, {
         method: "POST",

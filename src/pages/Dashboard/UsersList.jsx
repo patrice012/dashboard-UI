@@ -25,11 +25,10 @@ const UserList = ({ setSelectes }) => {
         isUpdated: false,
     });
     const { showFeedBack } = useContext(UIFeedBackContext);
-    const { users } = useContext(UsersListContext);
+    const { users, manageUsers } = useContext(UsersListContext);
     const url = callEndpoint;
 
     const { request, data, error } = useFetch(url);
-
 
     // update user's list after update or delete action
     useEffect(() => {
@@ -43,12 +42,16 @@ const UserList = ({ setSelectes }) => {
         return () => abortCont.abort();
     }, [isUpdating.isUpdated, showDeleteCheck.isDeleted, users]);
 
+    
+    // set default list
+    if (data) {
+        manageUsers(data);
+    }
 
     // close open modal
     const closeDeleteModal = () => {
         setShowDeleteCheck((prev) => ({ ...prev, state: false }));
     };
-
 
     // remove user handler
     const handleRemoveClick = (id) => {

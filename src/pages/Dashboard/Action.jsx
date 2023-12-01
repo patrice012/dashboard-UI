@@ -27,7 +27,8 @@ const ContentAction = ({ selectesItems }) => {
                 }
             })
             .then((data) => {
-                manageUsers((prev) => [data, ...prev]);
+                console.log(data, 'data from db')
+                manageUsers((prev) => [data, ...prev])
             })
             .catch((error) => {
                 showFeedBack(`Failed to create user: ${error} `);
