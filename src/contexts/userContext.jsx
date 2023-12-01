@@ -6,16 +6,15 @@ const UserContext = createContext()
 
 
 const UserProvider = ({children}) => {
-    const [user, setUser]  = useState({
-      "name": undefined,
-      "country": "United States",
-      "flag": "/src/assets/flag.png",
-      "profil_img": undefined,
-      "language": undefined,
-      "occupation": undefined,
-      "objective": undefined,
-      "subscription": undefined,
-    })
+    const [user, setUser] = useState({
+        name: undefined,
+        country: "United States",
+        profilImage: undefined,
+        language: undefined,
+        occupation: undefined,
+        objective: undefined,
+        subscription: undefined,
+    });
   
     const manageUser = (data) => {
       setUser(data)

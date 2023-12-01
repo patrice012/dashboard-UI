@@ -3,7 +3,7 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi2";
 
 export const UserDetail = (props) => {
-    const { id } = props;
+    const { _id:id } = props;
     const {
         profil_img,
         flag,
@@ -16,7 +16,7 @@ export const UserDetail = (props) => {
         index,
     } = props;
     const { handleRemoveClick, handleUpdate, handleSelecte } = props;
-    const {selected} = JSON.parse(sessionStorage.getItem("selection")).filter(ele => ele.id == id);
+    const { selected } = JSON.parse(sessionStorage.getItem("selection")).filter(ele => ele.id == id);
 
     return (
         <>

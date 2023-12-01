@@ -15,6 +15,8 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
         error: null,
     });
 
+
+    // fetch data to be updated
     useEffect(() => {
         const abortCont = new AbortController();
         fetchData(url)
@@ -32,12 +34,13 @@ const UpdateUser = ({ id, showModal, setIsUpdating }) => {
         return () => abortCont.abort();
     }, [url]);
 
-    console.log(updateData, "updated data");
 
+    // handle update
     const handleSubmit = (e) => {
         e.preventDefault();
         const response = putRequest(url, updateData);
         response.then((data) => showFeedBack(`${data.name} was updated`));
+        // reset update status if action is a success
         setIsUpdating((prev) => ({
             ...prev,
             state: false,

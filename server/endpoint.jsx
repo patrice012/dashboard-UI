@@ -1,10 +1,7 @@
-const userEndpoint = "http://localhost:3000/users";
-const callEndpoint = "http://localhost:3000/calls";
 
+const baseURL = "http://localhost:3000";
 
-
-// const userEndpoint = "https://my-json-server.typicode.com/patrice012/dashboard-UI/users";
-// const callEndpoint =
-//   "https://my-json-server.typicode.com/patrice012/dashboard-UI/calls";
+const userEndpoint = `${baseURL}/user`;
+const callEndpoint = `${baseURL}/data/`;
 
 export { userEndpoint, callEndpoint };

@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { callEndpoint } from "../../../server/endpoint";
-import UpdateUser from "../../components/EditUser";
+import UpdateUser from "../../components/UpdateUser";
 import { UIFeedBackContext } from "../../contexts/toastContext";
 import { ConfirmAction } from "../../components/UserConfirmation";
 import deleteRequest from "../../utils/delete";
 import { UserDetail } from "./User";
 import { UsersListContext } from "../../contexts/usersListContext";
 import { useFetch } from "../../hooks/useFetch";
-import { mergeArray } from "../../utils/mergeArray";
 
 const UserList = ({ setSelectes }) => {
     const [page, setPage] = useState(0);
@@ -31,6 +30,7 @@ const UserList = ({ setSelectes }) => {
 
     const { request, data, error } = useFetch(url);
 
+
     // update user's list after update or delete action
     useEffect(() => {
         const abortCont = new AbortController();
@@ -43,10 +43,14 @@ const UserList = ({ setSelectes }) => {
         return () => abortCont.abort();
     }, [isUpdating.isUpdated, showDeleteCheck.isDeleted, users]);
 
+
+    // close open modal
     const closeDeleteModal = () => {
         setShowDeleteCheck((prev) => ({ ...prev, state: false }));
     };
 
+
+    // remove user handler
     const handleRemoveClick = (id) => {
         const userUrl = callEndpoint + "/" + id;
 
@@ -87,7 +91,6 @@ const UserList = ({ setSelectes }) => {
     };
 
     // update user part
-
     const handleUpdate = (id) => {
         setIsUpdating((prev) => ({ ...prev, state: true, id: id }));
     };
@@ -162,7 +165,7 @@ const UserList = ({ setSelectes }) => {
                             {data?.map((user, index) => {
                                 return (
                                     <UserDetail
-                                        key={user.id}
+                                        key={user._id}
                                         index={index}
                                         {...user}
                                         handleRemoveClick={handleRemoveClick}

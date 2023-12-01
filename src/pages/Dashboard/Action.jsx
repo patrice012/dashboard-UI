@@ -17,7 +17,6 @@ const ContentAction = ({ selectesItems }) => {
             .then((response) => {
                 if (response.ok) {
                     setShowModal(false);
-                    console.log(response, 'jsoonf')
                     showFeedBack(`${data.name} was created successfully`);
                     return response.json();
                 } else {
@@ -28,7 +27,6 @@ const ContentAction = ({ selectesItems }) => {
                 }
             })
             .then((data) => {
-                console.log(data, "create part");
                 manageUsers((prev) => [data, ...prev]);
             })
             .catch((error) => {

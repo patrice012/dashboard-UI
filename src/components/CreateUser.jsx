@@ -5,8 +5,7 @@ const CreateUser = ({ handleUserCreation, showModal, setShowModal }) => {
         const data = {
             name: formData.get("username"),
             country: formData.get("state"),
-            flag: formData.get("flag"),
-            profil_img: "/src/assets/user.svg",
+            profilImage: "/src/assets/user.svg",
             language: formData.get("language"),
             occupation: formData.get("occupation"),
             objective: formData.get("objective"),
