@@ -4,13 +4,23 @@ import { useEffect, useState } from "react";
 import { AuthUser } from "./AuthUser";
 
 const NavBar = () => {
-    const url = userEndpoint;
+    const _id = localStorage.getItem("authID");
+    const url = `${userEndpoint}/${_id}`;
+    const [reloadUserData, setReloadUserData] = useState(false);
     const [queryState, setQueryState] = useState({
         isLoading: true,
         error: null,
     });
     const [toggleModal, setToggleModal] = useState(false);
     const { request, data: user, error } = useFetch(url);
+
+    // logging the user for the first time
+    useEffect(() => {
+        //loggin if ID is null
+        if (_id === null || _id === undefined || user == null) {
+            setToggleModal(true);
+        }
+    }, []);
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -21,9 +31,8 @@ const NavBar = () => {
             error: error?.message,
         }));
         return () => abortCont.abort();
-    }, [url]);
+    }, [reloadUserData]);
 
-    
     // toggle modal
     const handleModalShow = () => {
         setToggleModal((prev) => !prev);
@@ -41,7 +50,7 @@ const NavBar = () => {
                         ) : (
                             <p className="btn btn-ghost normal-case text-l">
                                 <span className="intro">
-                                    Hello, {user?.name}
+                                    Hello, {user?.username}
                                 </span>
                                 <img src="/src/assets/hola.png" />
                             </p>
@@ -68,7 +77,7 @@ const NavBar = () => {
                                 >
                                     <div className="w-10 rounded-full">
                                         <img
-                                            src={user?.profil_img}
+                                            src={user?.picture}
                                             className="profil"
                                         />
                                     </div>
@@ -98,7 +107,11 @@ const NavBar = () => {
                     )}
                 </div>
             </div>
-            <AuthUser showModal={toggleModal} setShowModal={setToggleModal} />
+            <AuthUser
+                showModal={toggleModal}
+                setShowModal={setToggleModal}
+                setReloadUserData={setReloadUserData}
+            />
         </>
     );
 };

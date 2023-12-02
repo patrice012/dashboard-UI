@@ -3,7 +3,7 @@ import { userEndpoint } from "../../server/endpoint";
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
-export const AuthUser = ({ showModal, setShowModal }) => {
+export const AuthUser = ({ showModal, setShowModal, setReloadUserData }) => {
     const [file, setFile] = useState(null);
     const [fileDataURL, setFileDataURL] = useState(null);
 
@@ -44,12 +44,23 @@ export const AuthUser = ({ showModal, setShowModal }) => {
         const url = userEndpoint;
         const response = fetch(url, { method: "POST", body: formData });
         response
-            .then((res) => console.log(res))
+            .then((res) => {
+                if (!res.ok) throw new Error();
+                return res.json();
+            })
+            .then((data) => {
+                const id = localStorage.getItem("authID");
+                if (id === undefined || id === null) {
+                    localStorage.setItem("authID", data._id);
+                }
+                setReloadUserData(true);
+                setShowModal((prev) => !prev);
+            })
             .catch((error) => console.log(error));
     };
 
     const closeModal = () => {
-        setShowModal(!showModal);
+        setShowModal((prev) => !prev);
     };
 
     return (
