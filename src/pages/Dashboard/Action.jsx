@@ -8,7 +8,7 @@ import { UsersListContext } from "../../contexts/usersListContext";
 const ContentAction = ({ selectesItems }) => {
     const [showModal, setShowModal] = useState(false);
     const { showFeedBack } = useContext(UIFeedBackContext);
-    const { manageUsers } = useContext(UsersListContext);
+    const { setFetchData } = useContext(UsersListContext);
     const url = callEndpoint;
 
     const handleUserCreation = (data) => {
@@ -26,9 +26,8 @@ const ContentAction = ({ selectesItems }) => {
                     throw new Error();
                 }
             })
-            .then((data) => {
-                console.log(data, 'data from db')
-                manageUsers((prev) => [data, ...prev])
+            .then(() => {
+                setFetchData((prev) => !prev);
             })
             .catch((error) => {
                 showFeedBack(`Failed to create user: ${error} `);
@@ -58,7 +57,10 @@ const ContentAction = ({ selectesItems }) => {
                         setShowModal={setShowModal}
                     />
 
-                    <span>{selectesItems == undefined ? 0 : selectesItems} row selected</span>
+                    <span>
+                        {selectesItems == undefined ? 0 : selectesItems} row
+                        selected
+                    </span>
                 </div>
                 <div className="form-control action--search">
                     <form>

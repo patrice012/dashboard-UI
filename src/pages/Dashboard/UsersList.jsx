@@ -25,7 +25,7 @@ const UserList = ({ setSelectes }) => {
         isUpdated: false,
     });
     const { showFeedBack } = useContext(UIFeedBackContext);
-    const { users, manageUsers } = useContext(UsersListContext);
+    let { fetchData } = useContext(UsersListContext);
     const url = callEndpoint;
 
     const { request, data, error } = useFetch(url);
@@ -40,13 +40,7 @@ const UserList = ({ setSelectes }) => {
             error: error?.message,
         }));
         return () => abortCont.abort();
-    }, [isUpdating.isUpdated, showDeleteCheck.isDeleted, users]);
-
-    
-    // set default list
-    if (data) {
-        manageUsers(data);
-    }
+    }, [isUpdating.isUpdated, showDeleteCheck.isDeleted, fetchData]);
 
     // close open modal
     const closeDeleteModal = () => {
